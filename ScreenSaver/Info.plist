@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>Source Version</key>
-	<string>#gitsha#</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -24,5 +22,7 @@
 	<string>Copyright © 2021 Thoughtworks Inc. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>Thoughtworks2021View</string>
+	<key>Source Version</key>
+	<string>#gitsha#</string>
 </dict>
 </plist>

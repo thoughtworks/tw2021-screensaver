@@ -72,7 +72,7 @@ class TrackView : NSView, CALayerDelegate {
     func makeFirstTrace() -> Trace
     {
         let idx = Util.randomInt(lanes.count)
-        let color = Configuration.sharedInstance.traceColors.randomElement()!
+        let color = Configuration.sharedInstance.nextColor()
         return makeTrace(index: idx, color: color)
     }
     
@@ -81,7 +81,7 @@ class TrackView : NSView, CALayerDelegate {
         let idx = first.index + ((first.index > 1) ? -1 : +1)
         var color: NSColor
         repeat {
-            color = Configuration.sharedInstance.traceColors.randomElement()!
+            color = Configuration.sharedInstance.nextColor()
         } while color == first.color
         return makeTrace(index: idx, color: color)
     }
@@ -89,7 +89,7 @@ class TrackView : NSView, CALayerDelegate {
     func makeTrace(index: Int, color: NSColor) -> Trace
     {
         let l = (self is HorizontalTrackView) ? bounds.width : bounds.height
-        return Trace(index: index, color: color, speed: bounds.width * 1.5, length: l)
+        return Trace(index: index, color: color, speed: Configuration.sharedInstance.traceSpeed, length: l)
     }
     
     
@@ -97,7 +97,7 @@ class TrackView : NSView, CALayerDelegate {
     {
         for t in traces {
             if t.isAtEnd {
-                if t.timestamp < now - 10 {
+                if t.timestamp < now - Configuration.sharedInstance.displayDuration {
                     t.startClear(at: now)
                 }
             } else {

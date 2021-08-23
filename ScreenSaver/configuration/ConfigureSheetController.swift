@@ -24,8 +24,12 @@ class ConfigureSheetController : NSObject
     
     @IBOutlet var window: NSWindow!
     @IBOutlet var versionField: NSTextField!
-    @IBOutlet var sizeSlider: NSSlider!
-    @IBOutlet var palettePopup: NSPopUpButton!
+    @IBOutlet var scaleSlider: NSSlider!
+    @IBOutlet var speedSlider: NSSlider!
+    @IBOutlet var intervalSlider: NSSlider!
+    @IBOutlet var durationSlider: NSSlider!
+    @IBOutlet var vDensitySlider: NSSlider!
+    @IBOutlet var colorSequencePopup: NSPopUpButton!
 
     override init()
     {
@@ -44,7 +48,7 @@ class ConfigureSheetController : NSObject
 
     @IBAction func openProjectPage(_ sender: AnyObject)
     {
-        NSWorkspace.shared.open(URL(string: "https://github.com/erikdoe/hexafliptile")!);
+        NSWorkspace.shared.open(URL(string: "https://github.com/thoughtworks/tw2021-screensaver")!);
     }
 
     @IBAction func closeConfigureSheet(_ sender: NSButton)
@@ -58,38 +62,28 @@ class ConfigureSheetController : NSObject
 
     func loadConfiguration()
     {
-        sizeSlider.integerValue = 1
-        palettePopup.removeAllItems()
+        scaleSlider.integerValue = Int(configuration.grideSize)
+        speedSlider.integerValue = Int(configuration.traceSpeed)
+        intervalSlider.integerValue = Int(configuration.startInterval)
+        durationSlider.integerValue = Int(configuration.displayDuration)
+        vDensitySlider.integerValue = 4 - configuration.verticalDensity + 2
+        colorSequencePopup.selectItem(withTag: configuration.randomColors ? 1 : 0)
+
+        scaleSlider.sendAction()
+        speedSlider.sendAction()
+        intervalSlider.sendAction()
+        durationSlider.sendAction()
+        vDensitySlider.sendAction()
     }
 
     private func saveConfiguration()
     {
-    }
-
-    func makeImage(palette: [String]) -> NSImage
-    {
-        let unit = CGFloat(16)
-        let size = NSSize(width: CGFloat(palette.count)*unit, height: unit)
-
-        let image = NSImage(size: size)
-        let imageRep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size.width), pixelsHigh: Int(size.height), bitsPerSample: 8,
-                                        samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: NSColorSpaceName.deviceRGB,
-                                        bytesPerRow: Int(size.width)*4, bitsPerPixel:32)!
-
-        NSGraphicsContext.saveGraphicsState()
-        NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: imageRep)
-
-        let path = NSBezierPath(rect: NSMakeRect(0, 0, unit, unit));
-        for colorString in palette {
-            NSColor(webcolor: colorString as NSString).set()
-            path.fill()
-            path.transform(using: AffineTransform(translationByX: unit, byY: 0))
-        }
-
-        NSGraphicsContext.restoreGraphicsState()
-
-        image.addRepresentation(imageRep)
-        return image
+        configuration.grideSize = CGFloat(scaleSlider.intValue)
+        configuration.traceSpeed = CGFloat(speedSlider.intValue)
+        configuration.startInterval = TimeInterval(intervalSlider.intValue)
+        configuration.displayDuration = TimeInterval(durationSlider.intValue)
+        configuration.verticalDensity = 4 - Int(vDensitySlider.intValue) + 2
+        configuration.randomColors = colorSequencePopup.selectedTag() == 1
     }
 
 }

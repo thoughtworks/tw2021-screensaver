@@ -20,12 +20,18 @@ class Configuration
 {
     static let sharedInstance = Configuration()
 
-    let grid = NSMakeSize(200, 200 * sqrt(0.75))
     let laneCount: Int = 5
-    let lineWidth: CGFloat = 6
-    let changeProbability = 5 // 1:x chance that direction does not change
-    
+    let changeProbability = 5 // 1:x chance that direction remains the same
+
+    var grid = NSMakeSize(200, 200 * sqrt(0.75))
+    var lineWidth: CGFloat = 6
+    var startInterval: TimeInterval = 2
+    var displayDuration: TimeInterval = 10
+    var verticalDensity: Int = 3
+    var randomColors: Bool = false
+
     private var defaults: UserDefaults
+    private var colorIndex: Int = 0
 
     var traceColors     = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
                            NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist ]
@@ -36,31 +42,61 @@ class Configuration
     {
         let identifier = Bundle(for: Configuration.self).bundleIdentifier!
         defaults = ScreenSaverDefaults(forModuleWithName: identifier)! as UserDefaults
-//        defaults.register(defaults: [
-//            "traceColors": [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade, NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist ]
-//            ])
-//        update()
-//        traceColors = palette.map { NSColor(webcolor: $0 as NSString) }
+        defaults.register(defaults: [
+            "GridSize": 150,
+            "TraceSpeed": 2000,
+            "StartInterval": 2,
+            "DisplayDuration": 10,
+            "VerticalDensity": 3
+            ])
+        update()
+        grideSize = grideSize // TODO: This does what it should but it's a bit weird
+    }
+    
+    func nextColor() -> NSColor
+    {
+        let color: NSColor
+        if randomColors {
+            color = traceColors.randomElement()!
+        } else {
+            color = traceColors[colorIndex]
+            colorIndex = (colorIndex + 1) % traceColors.count
+        }
+        return color
     }
 
-//    var palette: [String]
-//    {
-//        set
-//        {
-//            defaults.set(newValue, forKey: "traceColors")
-//            traceColors = newValue.map { NSColor(webcolor: $0 as NSString) }
-//            update()
-//        }
-//        get
-//        {
-//            defaults.array(forKey: "traceColors") as! [String]
-//        }
-//    }
-//
-//    private func update()
-//    {
-//        defaults.synchronize()
-//    }
+    var traceSpeed: CGFloat
+    {
+        get
+        {
+            CGFloat(defaults.integer(forKey: "TraceSpeed"))
+        }
+        set
+        {
+            defaults.setValue(newValue, forKey: "TraceSpeed")
+            update()
+        }
+    }
+    
+    var grideSize: CGFloat
+    {
+        get
+        {
+            CGFloat(defaults.integer(forKey: "GridSize"))
+        }
+        set
+        {
+            defaults.setValue(newValue, forKey: "GridSize")
+            grid.width = newValue
+            grid.height = newValue * sqrt(0.75)
+            lineWidth = newValue / 50 + 2
+        }
+    }
+    
+    private func update()
+    {
+        defaults.synchronize()
+    }
 
     
 }

@@ -42,28 +42,37 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func viewDidMoveToSuperview()
     {
         super.viewDidMoveToSuperview()
-        addSubview(BackgroundView(frame: frame))
-        makeTrackViews()
+        makeSubviews()
     }
     
-    func makeTrackViews()
+    func makeSubviews()
     {
-        let grid = Configuration.sharedInstance.grid
+        subviews.first?.removeFromSuperview()
         trackViews.forEach({ $0.removeFromSuperview() })
         trackViews = []
+
+        addSubview(BackgroundView(frame: frame))
+        trackViews = makeTrackViews()
+        trackViews.forEach({ addSubview($0) })
+    }
+    
+    func makeTrackViews() -> [TrackView]
+    {
+        var views: [TrackView] = []
+        let grid = Configuration.sharedInstance.grid
         var p = NSMakePoint(grid.width * 1.5, 0)
         while p.x < bounds.width {
-            trackViews.append(VerticalTrackView(frame: bounds, startAt: p))
-            p.x += grid.width * 3
+            views.append(VerticalTrackView(frame: bounds, startAt: p))
+            p.x += grid.width * CGFloat(Configuration.sharedInstance.verticalDensity)
         }
         p = NSMakePoint(0, 0)
         while p.y < bounds.height - grid.height {
-            trackViews.append(HorizontalTrackView(frame: bounds, startAt: p))
+            views.append(HorizontalTrackView(frame: bounds, startAt: p))
             p.y += grid.height * 2
         }
-        trackViews.shuffle()
+        views.shuffle()
 //        trackViews = [trackViews.first!]
-        trackViews.forEach({ addSubview($0) })
+        return views
     }
     
 
@@ -92,7 +101,7 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func stopAnimation()
     {
         super.stopAnimation()
-        makeTrackViews()
+        makeSubviews()
     }
     
     
@@ -101,7 +110,7 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func animateOneFrame()
     {
         let now = NSDate.now.timeIntervalSinceReferenceDate
-        if (now - lastTraceStart) > 2 {
+        if (now - lastTraceStart) > Configuration.sharedInstance.startInterval {
             trackViews.randomElement()?.startTrace(t: now)
             lastTraceStart = now
         }

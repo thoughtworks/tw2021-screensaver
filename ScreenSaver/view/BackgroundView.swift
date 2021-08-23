@@ -102,8 +102,7 @@ class BackgroundView : NSView, CALayerDelegate {
     {
         NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
         
-        Configuration.sharedInstance.backgroundColor.set()
-//        NSColor.darkGray.set()
+        Configuration.sharedInstance.backgroundColor.darker(0).set()
         NSBezierPath.fill(bounds)
         
         Configuration.sharedInstance.lineColor.set()

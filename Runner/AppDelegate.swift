@@ -63,7 +63,7 @@ class AppDelegate: NSObject
 
     @IBAction func showPreferences(_ sender: NSObject!)
     {
-        window.beginSheet(view.configureSheet!, completionHandler: nil)
+        window.beginSheet(view.configureSheet!, completionHandler: { _ in self.restartAnimation(self) })
     }
 
 }

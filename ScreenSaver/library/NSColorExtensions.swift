@@ -56,15 +56,5 @@ extension NSColor
         return NSColor(hue: hue, saturation: saturation, brightness: brightness*(1+amount), alpha: alpha)
     }
     
-    var CGColor: CGColor
-    {
-        get {
-            var components: [CGFloat] = [0, 0, 0, 0]
-            let deviceColor = self.usingColorSpace(NSColorSpace.deviceRGB)
-            deviceColor?.getComponents(&components)
-            return CoreGraphics.CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: components)!
-        }
-    }
-    
 }
 

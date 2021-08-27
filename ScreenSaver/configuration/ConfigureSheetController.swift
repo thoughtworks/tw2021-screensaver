@@ -99,11 +99,11 @@ class ConfigureSheetController : NSObject
 
     func loadConfiguration()
     {
-        scaleSlider.integerValue = Int(configuration.gridSize)
-        speedSlider.integerValue = Int(configuration.traceSpeed)
-        intervalSlider.integerValue = Int(configuration.startInterval)
-        durationSlider.integerValue = Int(configuration.displayDuration)
-        vDensitySlider.integerValue = configuration.verticalDensity
+        scaleSlider.animator().integerValue = Int(configuration.gridSize)
+        speedSlider.animator().integerValue = Int(configuration.traceSpeed)
+        intervalSlider.animator().integerValue = Int(configuration.startInterval)
+        durationSlider.animator().integerValue = Int(configuration.displayDuration)
+        vDensitySlider.animator().integerValue = configuration.verticalDensity
         colorSequencePopup.selectItem(withTag: configuration.randomColors ? 1 : 0)
 
         scaleSlider.sendAction()

@@ -87,7 +87,7 @@ Gw
                             <action selector="closeConfigureSheet:" target="-2" id="Wpu-ci-4yL"/>
                         </connections>
                     </button>
-                    <slider toolTip="The speed with which the traces are filled" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EGa-LC-5a7">
+                    <slider toolTip="The speed with which the traces are filled" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EGa-LC-5a7" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="401" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="250" maxValue="3500" doubleValue="1980.7692307692307" tickMarkPosition="below" numberOfTickMarks="14" allowsTickMarkValuesOnly="YES" sliderType="linear" id="gkr-0L-uaH">
@@ -96,7 +96,7 @@ Gw
                             </connections>
                         </sliderCell>
                     </slider>
-                    <slider toolTip="The length of the edges of the equilateral triangles that the pattern is constructed from" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oo-fQ-qxB">
+                    <slider toolTip="The length of the edges of the equilateral triangles that the pattern is constructed from" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oo-fQ-qxB" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="442" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="100" maxValue="200" doubleValue="125" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hTc-P6-rCu">
@@ -114,7 +114,7 @@ Gw
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <slider toolTip="The time to wait between starting new traces" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpg-G0-7Qr">
+                    <slider toolTip="The time to wait between starting new traces" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gpg-G0-7Qr" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="359" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="20" doubleValue="2" tickMarkPosition="below" numberOfTickMarks="20" allowsTickMarkValuesOnly="YES" sliderType="linear" id="Wnq-hP-ZKI">
@@ -123,7 +123,7 @@ Gw
                             </connections>
                         </sliderCell>
                     </slider>
-                    <slider toolTip="The duration a trace will remain filled" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v77-V0-LjN">
+                    <slider toolTip="The duration a trace will remain filled" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v77-V0-LjN" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="319" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="40" doubleValue="4" tickMarkPosition="below" numberOfTickMarks="21" allowsTickMarkValuesOnly="YES" sliderType="linear" id="fgX-JM-y9Q">
@@ -132,7 +132,7 @@ Gw
                             </connections>
                         </sliderCell>
                     </slider>
-                    <slider toolTip="A factor that specifies how many possible vertical traces are built into the pattern" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4YW-3M-6hW">
+                    <slider toolTip="A factor that specifies how many possible vertical traces are built into the pattern" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4YW-3M-6hW" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="281" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="2" maxValue="4" doubleValue="3" tickMarkPosition="below" numberOfTickMarks="3" allowsTickMarkValuesOnly="YES" sliderType="linear" id="cYs-cX-VuT">

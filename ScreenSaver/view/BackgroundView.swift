@@ -86,7 +86,6 @@ class BackgroundView : NSView, CALayerDelegate {
             lines.transform(using: AffineTransform(scaleByX: -1, byY: 1))
             lines.transform(using: AffineTransform(translationByX: grid.width, byY: 0))
         }
-
         lines.transform(using: AffineTransform(translationByX: p.x, byY: p.y))
         
         return lines
@@ -101,10 +100,8 @@ class BackgroundView : NSView, CALayerDelegate {
     func draw(_ layer: CALayer, in ctx: CGContext)
     {
         NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
-        
-        Configuration.sharedInstance.backgroundColor.darker(0).set()
+        Configuration.sharedInstance.backgroundColor.darker(0.0).set()
         NSBezierPath.fill(bounds)
-        
         Configuration.sharedInstance.lineColor.set()
         triangles.forEach({ $0.stroke() })
     }

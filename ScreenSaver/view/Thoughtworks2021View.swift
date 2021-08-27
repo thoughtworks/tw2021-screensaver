@@ -20,15 +20,16 @@ import ScreenSaver
 class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
 {
     var trackViews: [TrackView]
-    var lastTraceStart: TimeInterval
+    var lastTraceStart: Date
 
     override init?(frame: NSRect, isPreview: Bool)
     {
         trackViews = []
-        lastTraceStart = 0
+        lastTraceStart = Date.distantPast
         super.init(frame: frame, isPreview: isPreview)
         wantsLayer = true
-        animationTimeInterval = 1.0/60.0
+        animationTimeInterval = 1/10
+        
     }
 
     required init?(coder aDecoder: NSCoder)
@@ -42,10 +43,10 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func viewDidMoveToSuperview()
     {
         super.viewDidMoveToSuperview()
-        makeSubviews()
+        resetSubviews()
     }
     
-    func makeSubviews()
+    func resetSubviews()
     {
         subviews.first?.removeFromSuperview()
         trackViews.forEach({ $0.removeFromSuperview() })
@@ -62,16 +63,17 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         let grid = Configuration.sharedInstance.grid
         var p = NSMakePoint(grid.width * 1.5, 0)
         while p.x < bounds.width {
-            views.append(VerticalTrackView(frame: bounds, startAt: p))
+            let builder = VerticalBuilder(xStart: p.x, size: bounds.size)
+            views.append(TrackView(frame: bounds, lines: builder.build()))
             p.x += grid.width * CGFloat(Configuration.sharedInstance.verticalDensity)
         }
         p = NSMakePoint(0, 0)
         while p.y < bounds.height - grid.height {
-            views.append(HorizontalTrackView(frame: bounds, startAt: p))
+            let builder = HorizontalBuilder(yStart: p.y, size: bounds.size)
+            views.append(TrackView(frame: bounds, lines: builder.build()))
             p.y += grid.height * 2
         }
         views.shuffle()
-//        trackViews = [trackViews.first!]
         return views
     }
     
@@ -101,7 +103,7 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func stopAnimation()
     {
         super.stopAnimation()
-        makeSubviews()
+        resetSubviews()
     }
     
     
@@ -109,9 +111,9 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
 
     override func animateOneFrame()
     {
-        let now = NSDate.now.timeIntervalSinceReferenceDate
-        if (now - lastTraceStart) > Configuration.sharedInstance.startInterval {
-            trackViews.randomElement()?.startTrace(t: now)
+        let now = NSDate.now
+        if now.timeIntervalSince(lastTraceStart) > Configuration.sharedInstance.startInterval {
+            trackViews.filter({ $0.traceCount < 2 }).randomElement()?.addTrace()
             lastTraceStart = now
         }
         trackViews.forEach({ $0.animate(to: now) })

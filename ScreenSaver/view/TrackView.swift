@@ -17,134 +17,141 @@
 import Cocoa
 
 class TrackView : NSView, CALayerDelegate {
-    
-    var lanes: [NSBezierPath]
-    var rects: [NSRect]
-    var traces: [Trace]
 
-    init(frame: NSRect, lines: [[NSPoint]], rects: [NSRect])
+    var trackPath: NSBezierPath
+    var laneMarkerPaths: [NSBezierPath]
+    var tracePaths: [NSBezierPath]
+
+    init(frame: NSRect, lines: [[NSPoint]])
     {
-        self.lanes = TrackView.makeLanes(lines: lines)
-        self.rects = rects
-        self.traces = []
+        trackPath = TrackView.makeTrackPath(lines: lines)
+        laneMarkerPaths = TrackView.makeLaneMarkerPaths(lines: lines)
+        tracePaths = TrackView.makeTracePaths(lines: lines)
         super.init(frame: frame)
     }
-    
+
     required init?(coder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
-    
-   
-    static func makeLanes(lines: [[NSPoint]]) -> [NSBezierPath]
+
+    static func makeTrackPath(lines: [[NSPoint]]) -> NSBezierPath
     {
-        var lanes: [NSBezierPath] = []
-        for i in 0..<(lines.count - 1) {
-            let path = NSBezierPath()
-            for point in lines[i] {
-                if path.isEmpty {
-                    path.move(to: point)
-                } else {
-                    path.line(to: point)
-                }
-            }
-            for point in lines[i + 1].reversed() {
-                path.line(to: point)
-            }
-            path.close()
+        let path = makePath(line: lines[0])
+        for point in lines[lines.count - 1].reversed() {
+            path.line(to: point)
+        }
+        path.close()
+        return path
+    }
+
+    static func makeLaneMarkerPaths(lines: [[NSPoint]]) -> [NSBezierPath]
+    {
+        var pathList: [NSBezierPath] = []
+        for i in stride(from: 0, to: lines.count, by: 2) {
+            let path = makePath(line: lines[i])
             path.lineWidth = Configuration.sharedInstance.lineWidth
             path.lineJoinStyle = .bevel
-            lanes.append(path)
+            pathList.append(path)
         }
-        return lanes
+        return pathList
     }
-  
-    
-    public func startTrace(t now: TimeInterval)
+
+    static func makeTracePaths(lines: [[NSPoint]]) -> [NSBezierPath]
     {
-        if traces.count == 0 {
-            traces.append(makeFirstTrace().startFill(at: now))
-        } else if traces.count == 1 {
-            traces.append(makeSecondTrace(first: traces[0]).startFill(at: now))
+        var pathList: [NSBezierPath] = []
+        for i in stride(from: 1, to: lines.count - 1, by: 2) {
+            let path = makePath(line: lines[i])
+            let config = Configuration.sharedInstance
+            path.lineWidth = config.grid.height / CGFloat(config.laneCount) - config.lineWidth
+            pathList.append(path)
         }
+        return pathList
     }
-    
-    func makeFirstTrace() -> Trace
+
+    static func makePath(line: [NSPoint]) -> NSBezierPath
     {
-        let idx = Util.randomInt(lanes.count)
+        let path = NSBezierPath()
+        for point in line {
+            if path.isEmpty {
+                path.move(to: point)
+            } else {
+                path.line(to: point)
+            }
+        }
+        return path
+    }
+
+
+    public var traceLayers: [TraceLayer]
+    {
+        guard let layers = layer?.sublayers else {
+            return []
+        }
+        return layers.filter({ $0 is TraceLayer }) as! [TraceLayer]
+    }
+
+    public var traceCount: Int
+    {
+        guard let layers = layer?.sublayers else {
+            return 0
+        }
+        return layers.count
+    }
+
+    public func addTrace()
+    {
+        let traceLayers = traceLayers
+        let newLayer: TraceLayer
+        if traceLayers.count == 0 {
+            newLayer = makeFirstTraceLayer()
+        } else if traceLayers.count == 1 {
+            newLayer = makeSecondTraceLayer(first: traceLayers[0])
+        } else {
+            return
+        }
+        layer!.addSublayer(newLayer)
+    }
+
+    func makeFirstTraceLayer() -> TraceLayer
+    {
+        let idx = Util.randomInt(tracePaths.count)
         let color = Configuration.sharedInstance.nextColor()
-        return makeTrace(index: idx, color: color)
+        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
     }
-    
-    func makeSecondTrace(first: Trace) -> Trace
+
+    func makeSecondTraceLayer(first: TraceLayer) -> TraceLayer
     {
-        let idx = first.index + ((first.index > 1) ? -1 : +1)
+        var idx = first.laneIndex
+        idx = idx + ((idx >= 2) ? -1 : +1)
         var color: NSColor
         repeat {
             color = Configuration.sharedInstance.nextColor()
-        } while color == first.color
-        return makeTrace(index: idx, color: color)
+        } while color == NSColor(cgColor: first.strokeColor!)
+        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
     }
-    
-    func makeTrace(index: Int, color: NSColor) -> Trace
+
+
+    public func animate(to now: Date)
     {
-        let l = (self is HorizontalTrackView) ? bounds.width : bounds.height
-        return Trace(index: index, color: color, speed: Configuration.sharedInstance.traceSpeed, length: l)
+        traceLayers.forEach({ $0.animate(to: now) })
     }
-    
-    
-    public func animate(to now: TimeInterval)
-    {
-        for t in traces {
-            if t.isAtEnd {
-                if t.timestamp < now - Configuration.sharedInstance.displayDuration {
-                    t.startClear(at: now)
-                }
-            } else {
-                let prevPosition = t.position
-                t.move(to: now)
-                let grid = Configuration.sharedInstance.grid
-                let u = (self is HorizontalTrackView) ? grid.width/2 : grid.height
-                let range = Int(floor(prevPosition / u)) ..< Int(ceil(t.position / u))
-                rects[range].forEach({ setNeedsDisplay($0) })
-            }
-        }
-        traces.removeAll(where: { ($0.isAtEnd && !$0.isFilling) })
-    }
-    
-    
+
+
     override func draw(_ rect: NSRect)
     {
         super.draw(rect)
     }
-    
+
     func draw(_ layer: CALayer, in ctx: CGContext)
-    {        
-        NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: true)
-
-        Configuration.sharedInstance.backgroundColor.set()
-        lanes.forEach(({ $0.fill() }))
-
-        for t in traces {
-            NSGraphicsContext.saveGraphicsState()
-            NSBezierPath(rect: clipRectForTrace(t)).addClip()
-            t.color.set()
-            lanes[t.index].fill()
-            NSGraphicsContext.restoreGraphicsState()
-        }
-
-        Configuration.sharedInstance.lineColor.set()
-        lanes.forEach({ $0.stroke() })
-
-//        NSColor.red.set()
-//        rects.forEach({ NSBezierPath.stroke($0) })
-    }
-
-    func clipRectForTrace(_ trace: Trace) -> NSRect
     {
-        return bounds
+        NSGraphicsContext.current = NSGraphicsContext(cgContext: ctx, flipped: false)
+        Configuration.sharedInstance.backgroundColor.set()
+        trackPath.fill()
+        Configuration.sharedInstance.lineColor.set()
+        laneMarkerPaths.forEach({ $0.stroke() })
     }
-    
+
 }
 
 

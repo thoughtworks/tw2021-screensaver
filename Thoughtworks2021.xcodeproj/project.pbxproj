@@ -3,16 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		032279FA26D40BF100933FAF /* NSControlExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032279F926D40BF100933FAF /* NSControlExtensions.swift */; };
-		03EC26D826BAFD8C0027F2A0 /* Trace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26D726BAFD8C0027F2A0 /* Trace.swift */; };
+		032279FC26D4E1AD00933FAF /* TraceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032279FB26D4E1AD00933FAF /* TraceLayer.swift */; };
+		032279FE26D6775E00933FAF /* NSBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032279FD26D6775E00933FAF /* NSBezierPathExtensions.swift */; };
 		03EC26E026BD7EC90027F2A0 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */; };
 		03EC26E226BD82A20027F2A0 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E126BD82A20027F2A0 /* TrackView.swift */; };
-		03EC26E426BDD43D0027F2A0 /* HorizontalTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E326BDD43D0027F2A0 /* HorizontalTrackView.swift */; };
-		03EC26E626BDDDF40027F2A0 /* VerticalTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E526BDDDF40027F2A0 /* VerticalTrackView.swift */; };
+		03EC26E426BDD43D0027F2A0 /* HorizontalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */; };
+		03EC26E626BDDDF40027F2A0 /* VerticalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E526BDDDF40027F2A0 /* VerticalBuilder.swift */; };
 		03F526D7238ADC270068DC2C /* ConfigureSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F526C5238ADC270068DC2C /* ConfigureSheetController.swift */; };
 		03F526D8238ADC270068DC2C /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03F526C6238ADC270068DC2C /* ConfigureSheet.xib */; };
 		03F526D9238ADC270068DC2C /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F526C7238ADC270068DC2C /* Configuration.swift */; };
@@ -37,13 +38,14 @@
 
 /* Begin PBXFileReference section */
 		032279F926D40BF100933FAF /* NSControlExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSControlExtensions.swift; sourceTree = "<group>"; };
+		032279FB26D4E1AD00933FAF /* TraceLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraceLayer.swift; sourceTree = "<group>"; };
+		032279FD26D6775E00933FAF /* NSBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPathExtensions.swift; sourceTree = "<group>"; };
 		033CEF5523C3EA1000BC74C2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		033CEF5623C3EA4100BC74C2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		03EC26D726BAFD8C0027F2A0 /* Trace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trace.swift; sourceTree = "<group>"; };
 		03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		03EC26E126BD82A20027F2A0 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
-		03EC26E326BDD43D0027F2A0 /* HorizontalTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalTrackView.swift; sourceTree = "<group>"; };
-		03EC26E526BDDDF40027F2A0 /* VerticalTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalTrackView.swift; sourceTree = "<group>"; };
+		03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBuilder.swift; sourceTree = "<group>"; };
+		03EC26E526BDDDF40027F2A0 /* VerticalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalBuilder.swift; sourceTree = "<group>"; };
 		03F526B7238ADC140068DC2C /* Thoughtworks2021.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Thoughtworks2021.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		03F526BE238ADC140068DC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03F526C5238ADC270068DC2C /* ConfigureSheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigureSheetController.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 			children = (
 				03F526C9238ADC270068DC2C /* Statistics.swift */,
 				03F526CB238ADC270068DC2C /* Util.swift */,
+				032279FD26D6775E00933FAF /* NSBezierPathExtensions.swift */,
 				03F526CD238ADC270068DC2C /* NSColorExtensions.swift */,
 				032279F926D40BF100933FAF /* NSControlExtensions.swift */,
 			);
@@ -137,9 +140,9 @@
 				03F526D3238ADC270068DC2C /* Thoughtworks2021View.swift */,
 				03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */,
 				03EC26E126BD82A20027F2A0 /* TrackView.swift */,
-				03EC26E326BDD43D0027F2A0 /* HorizontalTrackView.swift */,
-				03EC26E526BDDDF40027F2A0 /* VerticalTrackView.swift */,
-				03EC26D726BAFD8C0027F2A0 /* Trace.swift */,
+				03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */,
+				03EC26E526BDDDF40027F2A0 /* VerticalBuilder.swift */,
+				032279FB26D4E1AD00933FAF /* TraceLayer.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		0355EB8123C2491B0006DA5A /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -279,7 +283,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SHA=`git rev-parse --short HEAD | tr '[a-z]' '[A-Z]'`\nsed -i \"\" \"s/#gitsha#/$SHA/\" \"${BUILT_PRODUCTS_DIR}\"/Thoughtworks2021.saver/Contents/Info.plist\n";
+			shellScript = "SHA=`git rev-parse --short HEAD | tr '[a-z]' '[A-Z]'`\nsed -i \"\" \"s/#gitsha#/$SHA/\" \"${BUILT_PRODUCTS_DIR}\"/Thoughtworks2021.saver/Contents/Info.plist\necho \"***\"\necho $SHA\necho ${BUILT_PRODUCTS_DIR}\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -289,17 +293,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				03F526E3238ADC270068DC2C /* Thoughtworks2021View.swift in Sources */,
+				032279FE26D6775E00933FAF /* NSBezierPathExtensions.swift in Sources */,
 				03F526D9238ADC270068DC2C /* Configuration.swift in Sources */,
 				03EC26E226BD82A20027F2A0 /* TrackView.swift in Sources */,
 				03EC26E026BD7EC90027F2A0 /* BackgroundView.swift in Sources */,
-				03EC26E626BDDDF40027F2A0 /* VerticalTrackView.swift in Sources */,
+				03EC26E626BDDDF40027F2A0 /* VerticalBuilder.swift in Sources */,
 				03F526DC238ADC270068DC2C /* Util.swift in Sources */,
-				03EC26D826BAFD8C0027F2A0 /* Trace.swift in Sources */,
 				03F526D7238ADC270068DC2C /* ConfigureSheetController.swift in Sources */,
 				03F526DE238ADC270068DC2C /* NSColorExtensions.swift in Sources */,
 				03F526DA238ADC270068DC2C /* Statistics.swift in Sources */,
+				032279FC26D4E1AD00933FAF /* TraceLayer.swift in Sources */,
 				032279FA26D40BF100933FAF /* NSControlExtensions.swift in Sources */,
-				03EC26E426BDD43D0027F2A0 /* HorizontalTrackView.swift in Sources */,
+				03EC26E426BDD43D0027F2A0 /* HorizontalBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

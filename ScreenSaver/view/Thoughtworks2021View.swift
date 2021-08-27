@@ -21,11 +21,13 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
 {
     var trackViews: [TrackView]
     var lastTraceStart: Date
+    var colorSequence: ColorSequence
 
     override init?(frame: NSRect, isPreview: Bool)
     {
         trackViews = []
         lastTraceStart = Date.distantPast
+        colorSequence = ColorSequence()
         super.init(frame: frame, isPreview: isPreview)
         wantsLayer = true
         animationTimeInterval = 1/10
@@ -64,13 +66,15 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         var p = NSMakePoint(grid.width * 1.5, 0)
         while p.x < bounds.width {
             let builder = VerticalBuilder(xStart: p.x, size: bounds.size)
-            views.append(TrackView(frame: bounds, lines: builder.build()))
+            let view = TrackView(frame: bounds, colors: colorSequence, lines: builder.build())
+            views.append(view)
             p.x += grid.width * CGFloat(4 - Configuration.sharedInstance.verticalDensity + 2)
         }
         p = NSMakePoint(0, 0)
         while p.y < bounds.height - grid.height {
             let builder = HorizontalBuilder(yStart: p.y, size: bounds.size)
-            views.append(TrackView(frame: bounds, lines: builder.build()))
+            let view = TrackView(frame: bounds, colors: colorSequence, lines: builder.build())
+            views.append(view)
             p.y += grid.height * 2
         }
         views.shuffle()

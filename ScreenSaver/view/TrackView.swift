@@ -18,12 +18,14 @@ import Cocoa
 
 class TrackView : NSView, CALayerDelegate {
 
+    var colors: ColorSequence
     var trackPath: NSBezierPath
     var laneMarkerPaths: [NSBezierPath]
     var tracePaths: [NSBezierPath]
 
-    init(frame: NSRect, lines: [[NSPoint]])
+    init(frame: NSRect, colors: ColorSequence, lines: [[NSPoint]])
     {
+        self.colors = colors
         trackPath = TrackView.makeTrackPath(lines: lines)
         laneMarkerPaths = TrackView.makeLaneMarkerPaths(lines: lines)
         tracePaths = TrackView.makeTracePaths(lines: lines)
@@ -116,7 +118,7 @@ class TrackView : NSView, CALayerDelegate {
     func makeFirstTraceLayer() -> TraceLayer
     {
         let idx = Util.randomInt(tracePaths.count)
-        let color = Configuration.sharedInstance.nextColor()
+        let color = colors.next()
         return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
     }
 
@@ -126,7 +128,7 @@ class TrackView : NSView, CALayerDelegate {
         idx = idx + ((idx >= 2) ? -1 : +1)
         var color: NSColor
         repeat {
-            color = Configuration.sharedInstance.nextColor()
+            color = colors.next()
         } while color == NSColor(cgColor: first.strokeColor!)
         return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
     }

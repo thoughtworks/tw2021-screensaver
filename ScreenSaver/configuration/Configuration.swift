@@ -27,13 +27,13 @@ class Configuration
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
 
-    private var defaults: UserDefaults
-    private var colorIndex: Int = 0
-
     var traceColors     = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
                            NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist ]
     var backgroundColor = NSColor.twWave
     var lineColor       = NSColor.twOnyx
+
+    private var defaults: UserDefaults
+
 
     init()
     {
@@ -51,18 +51,6 @@ class Configuration
         gridSize = gridSize // TODO: This does what it should but it's a bit weird
     }
     
-    func nextColor() -> NSColor
-    {
-        let color: NSColor
-        if randomColors {
-            color = traceColors.randomElement()!
-        } else {
-            color = traceColors[colorIndex]
-            colorIndex = (colorIndex + 1) % traceColors.count
-        }
-        return color
-    }
-
     var gridSize: CGFloat
     {
         get {

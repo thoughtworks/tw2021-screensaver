@@ -24,6 +24,7 @@
 		03F526F0238ADCBF0068DC2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 03F526EF238ADCBF0068DC2C /* Assets.xcassets */; };
 		03F526F3238ADCBF0068DC2C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 03F526F1238ADCBF0068DC2C /* MainMenu.xib */; };
 		2FA282F4ABB2E4DA45349DA0 /* TraceLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA28CB55B15F80B8A23DFDF /* TraceLayer.swift */; };
+		2FA28EA5678BB2A54BFB00C1 /* ColorSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA286A791AAC011A987A9A7 /* ColorSequence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,7 @@
 		03F526F2238ADCBF0068DC2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		03F526F4238ADCBF0068DC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		03F526F5238ADCBF0068DC2C /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		2FA286A791AAC011A987A9A7 /* ColorSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorSequence.swift; sourceTree = "<group>"; };
 		2FA28CB55B15F80B8A23DFDF /* TraceLayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraceLayer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 				03EC26E126BD82A20027F2A0 /* TrackView.swift */,
 				03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */,
 				03EC26E526BDDDF40027F2A0 /* VerticalBuilder.swift */,
+				2FA286A791AAC011A987A9A7 /* ColorSequence.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				032279FA26D40BF100933FAF /* NSControlExtensions.swift in Sources */,
 				03EC26E426BDD43D0027F2A0 /* HorizontalBuilder.swift in Sources */,
 				2FA282F4ABB2E4DA45349DA0 /* TraceLayer.swift in Sources */,
+				2FA28EA5678BB2A54BFB00C1 /* ColorSequence.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

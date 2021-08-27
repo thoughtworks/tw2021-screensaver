@@ -23,11 +23,11 @@ class Configuration
     let laneCount: Int = 5
     let changeProbability = 5 // 1:x chance that direction remains the same
 
-    var grid = NSMakeSize(200, 200 * sqrt(0.75))
-    var lineWidth: CGFloat = 6
+    var grid = NSMakeSize(150, 150 * sqrt(0.75))
+    var lineWidth: CGFloat = 5
     var startInterval: TimeInterval = 2
     var displayDuration: TimeInterval = 10
-    var verticalDensity: Int = 3
+    var verticalDensity: Int = 2
     var randomColors: Bool = false
 
     private var defaults: UserDefaults
@@ -44,10 +44,10 @@ class Configuration
         defaults = ScreenSaverDefaults(forModuleWithName: identifier)! as UserDefaults
         defaults.register(defaults: [
             "GridSize": 150,
-            "TraceSpeed": 2000,
+            "TraceSpeed": 1500,
             "StartInterval": 2,
             "DisplayDuration": 10,
-            "VerticalDensity": 3
+            "VerticalDensity": 4
             ])
         update()
         grideSize = grideSize // TODO: This does what it should but it's a bit weird

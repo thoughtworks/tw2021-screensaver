@@ -16,14 +16,21 @@
 
 import Cocoa
 
-class NSSliderWithAnimation: NSSlider {
+class NSSliderWithAnimation: NSSlider, CAAnimationDelegate {
     
     override func animation(forKey key: NSAnimatablePropertyKey) -> Any?
     {
         if key == "integerValue" {
-            return CABasicAnimation()
+            let animation = CABasicAnimation()
+            animation.delegate = self
+            return animation
         }
         return super.animation(forKey: key)
+    }
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool)
+    {
+        sendAction()
     }
     
 }

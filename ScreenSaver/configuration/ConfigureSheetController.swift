@@ -62,11 +62,11 @@ class ConfigureSheetController : NSObject
 
     func loadConfiguration()
     {
-        scaleSlider.integerValue = Int(configuration.grideSize)
+        scaleSlider.integerValue = Int(configuration.gridSize)
         speedSlider.integerValue = Int(configuration.traceSpeed)
         intervalSlider.integerValue = Int(configuration.startInterval)
         durationSlider.integerValue = Int(configuration.displayDuration)
-        vDensitySlider.integerValue = 4 - configuration.verticalDensity + 2
+        vDensitySlider.integerValue = configuration.verticalDensity
         colorSequencePopup.selectItem(withTag: configuration.randomColors ? 1 : 0)
 
         scaleSlider.sendAction()
@@ -78,11 +78,11 @@ class ConfigureSheetController : NSObject
 
     private func saveConfiguration()
     {
-        configuration.grideSize = CGFloat(scaleSlider.intValue)
+        configuration.gridSize = CGFloat(scaleSlider.intValue)
         configuration.traceSpeed = CGFloat(speedSlider.intValue)
         configuration.startInterval = TimeInterval(intervalSlider.intValue)
         configuration.displayDuration = TimeInterval(durationSlider.intValue)
-        configuration.verticalDensity = 4 - Int(vDensitySlider.intValue) + 2
+        configuration.verticalDensity = Int(vDensitySlider.intValue)
         configuration.randomColors = colorSequencePopup.selectedTag() == 1
     }
 

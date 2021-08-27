@@ -21,14 +21,11 @@ class Configuration
     static let sharedInstance = Configuration()
 
     let laneCount: Int = 5
-    let changeProbability = 5 // 1:x chance that direction remains the same
+    let hChangeProbability = 5 // 1:x chance that direction remains the same
+    let vChangeProbability = 3 // 1:x chance that direction remains the same
 
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
-    var startInterval: TimeInterval = 2
-    var displayDuration: TimeInterval = 10
-    var verticalDensity: Int = 2
-    var randomColors: Bool = false
 
     private var defaults: UserDefaults
     private var colorIndex: Int = 0
@@ -47,10 +44,11 @@ class Configuration
             "TraceSpeed": 1500,
             "StartInterval": 2,
             "DisplayDuration": 10,
-            "VerticalDensity": 4
+            "VerticalDensity": 2,
+            "RandomColors": false
             ])
         update()
-        grideSize = grideSize // TODO: This does what it should but it's a bit weird
+        gridSize = gridSize // TODO: This does what it should but it's a bit weird
     }
     
     func nextColor() -> NSColor
@@ -65,31 +63,70 @@ class Configuration
         return color
     }
 
-    var traceSpeed: CGFloat
+    var gridSize: CGFloat
     {
-        get
-        {
-            CGFloat(defaults.integer(forKey: "TraceSpeed"))
-        }
-        set
-        {
-            defaults.setValue(newValue, forKey: "TraceSpeed")
-            update()
-        }
-    }
-    
-    var grideSize: CGFloat
-    {
-        get
-        {
+        get {
             CGFloat(defaults.integer(forKey: "GridSize"))
         }
-        set
-        {
+        set {
             defaults.setValue(newValue, forKey: "GridSize")
             grid.width = newValue
             grid.height = newValue * sqrt(0.75)
             lineWidth = newValue / 50 + 2
+        }
+    }
+
+    var traceSpeed: CGFloat
+    {
+        get {
+            CGFloat(defaults.integer(forKey: "TraceSpeed"))
+        }
+        set {
+            defaults.setValue(newValue, forKey: "TraceSpeed")
+            update()
+        }
+    }
+
+    var startInterval: TimeInterval
+    {
+        get {
+            TimeInterval(defaults.float(forKey: "StartInterval"))
+        }
+        set {
+            defaults.set(newValue, forKey: "StartInterval")
+            update()
+        }
+    }
+
+    var displayDuration: TimeInterval
+    {
+        get {
+            TimeInterval(defaults.float(forKey: "DisplayDuration"))
+        }
+        set {
+            defaults.set(newValue, forKey: "DisplayDuration")
+            update()
+        }
+    }
+
+    var verticalDensity: Int
+    {
+        get {
+            defaults.integer(forKey: "VerticalDensity")
+        }
+        set {
+            defaults.set(newValue, forKey: "VerticalDensity")
+            update()
+        }
+    }
+
+    var randomColors: Bool
+    {
+        get {
+            defaults.bool(forKey: "RandomColors")
+        }
+        set {
+            defaults.set(newValue, forKey: "RandomColors")
         }
     }
     

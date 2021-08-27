@@ -62,7 +62,7 @@ class HorizontalBuilder {
             bearing += 1
         } else if (p0.y > size.height - 2 * config.grid.height) && (bearing > -1) {
             bearing += -1
-        } else if Util.randomInt(config.changeProbability) != 0 {
+        } else if Util.randomInt(config.hChangeProbability) != 0 {
             if bearing == 0 {
                 bearing = Util.randomBool() ? 1 : -1
             } else {

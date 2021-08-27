@@ -291,9 +291,9 @@ Gw
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vLj-P1-4aF">
-                        <rect key="frame" x="20" y="59" width="395" height="123"/>
+                        <rect key="frame" x="20" y="70" width="395" height="112"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" selectable="YES" id="nJp-bo-CRB">
+                        <textFieldCell key="cell" selectable="YES" enabled="NO" id="nJp-bo-CRB">
                             <font key="font" metaFont="system"/>
                             <string key="title">This is an early access version that exposes more settings than the final version will. We are interested in what settings you like. If you feel like the range is not big enough, we'd be interested to hear that, too.
 

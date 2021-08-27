@@ -51,7 +51,7 @@ class VerticalBuilder {
             bearing = 1
         } else if p0.x >= size.width - 1.5 * config.grid.width {
             bearing = -1
-        } else if Util.randomInt(config.changeProbability) != 0 {
+        } else if Util.randomInt(config.vChangeProbability) != 0 {
             bearing *= -1
         }
     }

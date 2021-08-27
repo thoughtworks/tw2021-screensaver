@@ -59,6 +59,43 @@ class ConfigureSheetController : NSObject
         window.sheetParent!.endSheet(window, returnCode: (sender.tag == 1) ? NSApplication.ModalResponse.OK : NSApplication.ModalResponse.cancel)
     }
 
+    @IBAction func applyPreset(_ sender: NSButton)
+    {
+        switch sender.tag {
+        case 0:
+            configuration.gridSize = 200
+            configuration.traceSpeed = 2500
+            configuration.startInterval = 1
+            configuration.displayDuration = 4
+            configuration.verticalDensity = 2
+            configuration.randomColors = false
+        case 1:
+            configuration.gridSize = 175
+            configuration.traceSpeed = 3500
+            configuration.startInterval = 2
+            configuration.displayDuration = 12
+            configuration.verticalDensity = 2
+            configuration.randomColors = false
+        case 2:
+            configuration.gridSize = 125
+            configuration.traceSpeed = 500
+            configuration.startInterval = 6
+            configuration.displayDuration = 34
+            configuration.verticalDensity = 2
+            configuration.randomColors = false
+        case 3:
+            configuration.gridSize = 100
+            configuration.traceSpeed = 250
+            configuration.startInterval = 2
+            configuration.displayDuration = 20
+            configuration.verticalDensity = 3
+            configuration.randomColors = false
+        default:
+            return
+        }
+        loadConfiguration()
+        
+    }
 
     func loadConfiguration()
     {

@@ -120,7 +120,6 @@
 				03F526C7238ADC270068DC2C /* Configuration.swift */,
 				03F526C5238ADC270068DC2C /* ConfigureSheetController.swift */,
 				03F526C6238ADC270068DC2C /* ConfigureSheet.xib */,
-				2FA28CB55B15F80B8A23DFDF /* TraceLayer.swift */,
 			);
 			path = configuration;
 			sourceTree = "<group>";
@@ -143,6 +142,7 @@
 				03F526D3238ADC270068DC2C /* Thoughtworks2021View.swift */,
 				03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */,
 				03EC26E126BD82A20027F2A0 /* TrackView.swift */,
+				2FA28CB55B15F80B8A23DFDF /* TraceLayer.swift */,
 				03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */,
 				03EC26E526BDDDF40027F2A0 /* VerticalBuilder.swift */,
 				2FA286A791AAC011A987A9A7 /* ColorSequence.swift */,

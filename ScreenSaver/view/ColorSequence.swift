@@ -20,7 +20,8 @@ class ColorSequence {
 
     var index: Int
 
-    init() {
+    init()
+    {
         index = 0
     }
 

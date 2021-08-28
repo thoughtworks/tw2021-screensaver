@@ -16,8 +16,7 @@
 
 import ScreenSaver
 
-class Configuration
-{
+class Configuration {
     static let sharedInstance = Configuration()
 
     let laneCount: Int = 5
@@ -27,10 +26,10 @@ class Configuration
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
 
-    var traceColors     = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
-                           NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist ]
+    var traceColors = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
+                       NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist]
     var backgroundColor = NSColor.twWave
-    var lineColor       = NSColor.twOnyx
+    var lineColor = NSColor.twOnyx
 
     private var defaults: UserDefaults
 
@@ -46,17 +45,19 @@ class Configuration
             "DisplayDuration": 10,
             "VerticalDensity": 2,
             "RandomColors": false
-            ])
+        ])
         update()
         gridSize = gridSize // TODO: This does what it should but it's a bit weird
     }
-    
+
     var gridSize: CGFloat
     {
-        get {
+        get
+        {
             CGFloat(defaults.integer(forKey: "GridSize"))
         }
-        set {
+        set
+        {
             defaults.setValue(newValue, forKey: "GridSize")
             grid.width = newValue
             grid.height = newValue * sqrt(0.75)
@@ -66,10 +67,12 @@ class Configuration
 
     var traceSpeed: CGFloat
     {
-        get {
+        get
+        {
             CGFloat(defaults.integer(forKey: "TraceSpeed"))
         }
-        set {
+        set
+        {
             defaults.setValue(newValue, forKey: "TraceSpeed")
             update()
         }
@@ -77,10 +80,12 @@ class Configuration
 
     var startInterval: TimeInterval
     {
-        get {
+        get
+        {
             TimeInterval(defaults.float(forKey: "StartInterval"))
         }
-        set {
+        set
+        {
             defaults.set(newValue, forKey: "StartInterval")
             update()
         }
@@ -88,10 +93,12 @@ class Configuration
 
     var displayDuration: TimeInterval
     {
-        get {
+        get
+        {
             TimeInterval(defaults.float(forKey: "DisplayDuration"))
         }
-        set {
+        set
+        {
             defaults.set(newValue, forKey: "DisplayDuration")
             update()
         }
@@ -99,30 +106,34 @@ class Configuration
 
     var verticalDensity: Int
     {
-        get {
+        get
+        {
             defaults.integer(forKey: "VerticalDensity")
         }
-        set {
+        set
+        {
             defaults.set(newValue, forKey: "VerticalDensity")
             update()
         }
     }
 
-    var randomColors: Bool
+    var randomizeColorSequence: Bool
     {
-        get {
+        get
+        {
             defaults.bool(forKey: "RandomColors")
         }
-        set {
+        set
+        {
             defaults.set(newValue, forKey: "RandomColors")
         }
     }
-    
+
     private func update()
     {
         defaults.synchronize()
     }
 
-    
+
 }
 

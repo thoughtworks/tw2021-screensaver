@@ -12,7 +12,6 @@
                 <outlet property="durationSlider" destination="v77-V0-LjN" id="Dob-nN-WYo"/>
                 <outlet property="intervalSlider" destination="gpg-G0-7Qr" id="qK7-lg-lpX"/>
                 <outlet property="scaleSlider" destination="2oo-fQ-qxB" id="Oqa-2j-QIr"/>
-                <outlet property="sizeSlider" destination="EGa-LC-5a7" id="HbF-Mr-Lgr"/>
                 <outlet property="speedSlider" destination="EGa-LC-5a7" id="bPM-N4-Xhh"/>
                 <outlet property="vDensitySlider" destination="4YW-3M-6hW" id="wlL-JQ-Wln"/>
                 <outlet property="versionField" destination="3KO-u9-Cnz" id="t6l-M7-4vP"/>

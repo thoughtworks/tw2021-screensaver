@@ -16,20 +16,17 @@
 
 import Cocoa
 
-class ColorSequence {
+class ColorSequence: Sequence, IteratorProtocol {
 
-    var index: Int
+    typealias Element = NSColor
 
-    init()
-    {
-        index = 0
-    }
+    var index: Int = 0
 
-    func next() -> NSColor
+    func next() -> NSColor?
     {
         let config = Configuration.sharedInstance
         let color: NSColor
-        if config.randomColors {
+        if config.randomizeColorSequence {
             color = config.traceColors.randomElement()!
         } else {
             color = config.traceColors[index]

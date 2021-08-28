@@ -68,28 +68,28 @@ class ConfigureSheetController : NSObject
             configuration.startInterval = 1
             configuration.displayDuration = 4
             configuration.verticalDensity = 2
-            configuration.randomColors = false
+            configuration.randomizeColorSequence = false
         case 1:
             configuration.gridSize = 175
             configuration.traceSpeed = 3500
             configuration.startInterval = 2
             configuration.displayDuration = 12
             configuration.verticalDensity = 2
-            configuration.randomColors = false
+            configuration.randomizeColorSequence = false
         case 2:
             configuration.gridSize = 125
             configuration.traceSpeed = 500
             configuration.startInterval = 6
             configuration.displayDuration = 34
             configuration.verticalDensity = 2
-            configuration.randomColors = false
+            configuration.randomizeColorSequence = false
         case 3:
             configuration.gridSize = 100
             configuration.traceSpeed = 250
             configuration.startInterval = 2
             configuration.displayDuration = 20
             configuration.verticalDensity = 3
-            configuration.randomColors = false
+            configuration.randomizeColorSequence = false
         default:
             return
         }
@@ -104,7 +104,7 @@ class ConfigureSheetController : NSObject
         intervalSlider.animator().integerValue = Int(configuration.startInterval)
         durationSlider.animator().integerValue = Int(configuration.displayDuration)
         vDensitySlider.animator().integerValue = configuration.verticalDensity
-        colorSequencePopup.selectItem(withTag: configuration.randomColors ? 1 : 0)
+        colorSequencePopup.selectItem(withTag: configuration.randomizeColorSequence ? 1 : 0)
 
         scaleSlider.sendAction()
         speedSlider.sendAction()
@@ -120,7 +120,7 @@ class ConfigureSheetController : NSObject
         configuration.startInterval = TimeInterval(intervalSlider.intValue)
         configuration.displayDuration = TimeInterval(durationSlider.intValue)
         configuration.verticalDensity = Int(vDensitySlider.intValue)
-        configuration.randomColors = colorSequencePopup.selectedTag() == 1
+        configuration.randomizeColorSequence = colorSequencePopup.selectedTag() == 1
     }
 
 }

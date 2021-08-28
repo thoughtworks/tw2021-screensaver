@@ -27,6 +27,11 @@ class Util
     {
         return Int(arc4random_uniform(UInt32(max)))
     }
+    
+    class func randomInt(range: ClosedRange<Int>) -> Int
+    {
+        return randomInt(range.upperBound - range.lowerBound + 1) - range.lowerBound
+    }
 
     class func randomCGFloat(_ max: Int = 1) -> CGFloat
     {

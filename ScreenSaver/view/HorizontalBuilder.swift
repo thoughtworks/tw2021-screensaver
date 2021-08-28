@@ -25,20 +25,19 @@ class HorizontalBuilder {
     var bearing: CGFloat
     var xOffset: CGFloat
 
-    init(yStart: CGFloat, size: NSSize)
+    init(start: NSPoint, size: NSSize)
     {
-        self.config = Configuration.sharedInstance
+        config = Configuration.sharedInstance
         self.size = size
         lines = Array(repeating: [], count: (config.laneCount * 2) + 1)
-        p0 = NSMakePoint(-config.grid.width, yStart)
-        bearing = Util.randomBool() ? -1 : 1
+        p0 = start
+        bearing = 0
         xOffset = 0
+        setNewDirection()
     }
     
     public func build() -> [[NSPoint]] {
         while p0.x < size.width + config.grid.width {
-            movePoint()
-            setNewDirection()
             if bearing != 0 {
                 xOffset = -bearing * (config.grid.width/2 / CGFloat(config.laneCount * 2))
             }
@@ -46,6 +45,8 @@ class HorizontalBuilder {
             if bearing == 0 {
                xOffset = 0
             }
+            movePoint()
+            setNewDirection()
         }
         return lines
     }

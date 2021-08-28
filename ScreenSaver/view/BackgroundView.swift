@@ -25,39 +25,39 @@ class BackgroundView : NSView, CALayerDelegate {
         triangles = BackgroundView.makeTriangleTiling(frame.size)
         super.init(frame: frame)
     }
-    
+
     required init?(coder: NSCoder)
     {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
+
+
     override var isOpaque: Bool
     {
         get { true }
     }
-    
-    
+
+
     static func makeTriangleTiling(_ size: NSSize) -> [NSBezierPath]
     {
         let grid = Configuration.sharedInstance.grid
         var triangles: [NSBezierPath] = []
-        var p = NSMakePoint(-grid.width/2, 0)
+        var p = NSMakePoint(-grid.width/2, -grid.height/2)
         var xOffset: CGFloat = 0
         while p.y < size.height + 1 {
-            var up = true
+            var up = false
             while p.x < size.width {
                 triangles.append(makeTriangle(p, up))
                 p.x += grid.width/2
                 up = !up
             }
-            p.x = -grid.width + xOffset
+            xOffset = (xOffset < 0) ? 0 : -grid.width/2
+            p.x = -grid.width/2 + xOffset
             p.y += grid.height
-            xOffset = (xOffset > 0) ? 0 : grid.width/2
         }
         return triangles
     }
-    
+
     static func makeTriangle(_ p: NSPoint, _ up: Bool) -> NSBezierPath
     {
         let grid = Configuration.sharedInstance.grid
@@ -66,32 +66,29 @@ class BackgroundView : NSView, CALayerDelegate {
         let lines = NSBezierPath()
         lines.lineWidth = Configuration.sharedInstance.lineWidth
         lines.lineCapStyle = .round
-        
-        var p0 = NSMakePoint(0, grid.height)
-        var p1 = NSMakePoint(grid.width / 2, 0)
-        
-        for _ in 0 ..< laneCount {
+
+        var p0 = NSMakePoint(0, 2/3 * grid.height)
+        var p1 = p0
+        for _ in 0...laneCount {
             lines.move(to: p0)
             lines.line(to: p1)
-            p0.x += grid.width   / CGFloat(laneCount)
-            p1.x += grid.width/2 / CGFloat(laneCount)
-            p1.y += grid.height  / CGFloat(laneCount)
+            let lc = CGFloat(laneCount)
+            p0.x -= 1/(2*lc) * grid.width;  p0.y -= 1/lc * grid.height
+            p1.x += 1/(2*lc) * grid.width;  p1.y -= 1/lc * grid.height
         }
-                
+        let rotation = CGFloat(Util.randomInt(range: -1...1) * 120)
+        lines.transform(using: AffineTransform(rotationByDegrees: rotation))
         if !up {
-            lines.transform(using: AffineTransform(scaleByX: 1, byY: -1))
-            lines.transform(using: AffineTransform(translationByX: 0, byY: grid.height))
+            lines.transform(using: AffineTransform(rotationByDegrees: 180))
+            lines.transform(using: AffineTransform(translationByX: 0, byY: grid.height/3))
         }
-        if Util.randomBool() {
-            lines.transform(using: AffineTransform(scaleByX: -1, byY: 1))
-            lines.transform(using: AffineTransform(translationByX: grid.width, byY: 0))
-        }
+        lines.transform(using: AffineTransform(translationByX: grid.width/2, byY: grid.height/3))
         lines.transform(using: AffineTransform(translationByX: p.x, byY: p.y))
-        
+
         return lines
     }
-    
-    
+
+
     override func draw(_ rect: NSRect)
     {
         super.draw(rect)

@@ -24,19 +24,19 @@ class VerticalBuilder {
     var p0: NSPoint
     var bearing: CGFloat
 
-    init(xStart: CGFloat, size: NSSize) {
-        self.config = Configuration.sharedInstance
+    init(start: NSPoint, size: NSSize) {
+        config = Configuration.sharedInstance
         self.size = size
         lines = Array(repeating: [], count: (config.laneCount * 2) + 1)
-        p0 = NSMakePoint(xStart, -config.grid.height)
+        p0 = start
         bearing = Util.randomBool() ? -1 : 1
     }
     
     public func build() -> [[NSPoint]] {
-        while p0.y < size.height {
+        while p0.y < size.height + config.grid.height {
+            appendPoints()
             movePoint()
             setNewDirection()
-            appendPoints()
         }
         return lines
     }
@@ -49,7 +49,7 @@ class VerticalBuilder {
     func setNewDirection() {
         if p0.x < config.grid.width/2 {
             bearing = 1
-        } else if p0.x >= size.width - 1.5 * config.grid.width {
+        } else if p0.x >= size.width - 2/3 * config.grid.width {
             bearing = -1
         } else if Util.randomInt(config.vChangeProbability) != 0 {
             bearing *= -1

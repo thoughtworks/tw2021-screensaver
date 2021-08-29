@@ -68,16 +68,12 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         let grid = Configuration.sharedInstance.grid
         var p = NSMakePoint(grid.width, -grid.height/2)
         while p.x < bounds.width {
-            let builder = VerticalBuilder(start: p, size: bounds.size)
-            let view = TrackView(frame: bounds, colors: colorSequence, lines: builder.build())
-            views.append(view)
+            views.append(TrackView.verticalView(frame: bounds, startAt: p, colorSequence: colorSequence))
             p.x += grid.width * CGFloat(4 - Configuration.sharedInstance.verticalDensity + 2)
         }
         p = NSMakePoint(-grid.width, 3/2 * grid.height)
         while p.y < bounds.height - grid.height {
-            let builder = HorizontalBuilder(start: p, size: bounds.size)
-            let view = TrackView(frame: bounds, colors: colorSequence, lines: builder.build())
-            views.append(view)
+            views.append(TrackView.horizontalView(frame: bounds, startAt: p, colorSequence: colorSequence))
             p.y += grid.height * 2
         }
         views.shuffle()

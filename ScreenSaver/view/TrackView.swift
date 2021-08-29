@@ -23,6 +23,20 @@ class TrackView : NSView, CALayerDelegate {
     var laneMarkerPaths: [NSBezierPath]
     var tracePaths: [NSBezierPath]
 
+    
+    public class func verticalView(frame: NSRect, startAt p: NSPoint, colorSequence: ColorSequence) -> TrackView
+    {
+        let builder = VerticalBuilder(start: p, size: frame.size)
+        return TrackView(frame: frame, colors: colorSequence, lines: builder.build())
+    }
+    
+    public class func horizontalView(frame: NSRect, startAt p: NSPoint, colorSequence: ColorSequence) -> TrackView
+    {
+        let builder = HorizontalBuilder(start: p, size: frame.size)
+        return TrackView(frame: frame, colors: colorSequence, lines: builder.build())
+    }
+    
+    
     init(frame: NSRect, colors: ColorSequence, lines: [[NSPoint]])
     {
         self.colors = colors

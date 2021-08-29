@@ -49,7 +49,7 @@ class VerticalBuilder {
     func setNewDirection() {
         if p0.x < config.grid.width/2 {
             bearing = 1
-        } else if p0.x >= size.width - 2/3 * config.grid.width {
+        } else if p0.x > size.width - 2 * config.grid.width {
             bearing = -1
         } else if Util.randomInt(config.vChangeProbability) != 0 {
             bearing *= -1

@@ -21,7 +21,9 @@ class NSSliderWithAnimation: NSSlider, CAAnimationDelegate {
     override func animation(forKey key: NSAnimatablePropertyKey) -> Any?
     {
         if key == "integerValue" {
+            allowsTickMarkValuesOnly = false
             let animation = CABasicAnimation()
+            animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
             animation.delegate = self
             return animation
         }
@@ -30,6 +32,7 @@ class NSSliderWithAnimation: NSSlider, CAAnimationDelegate {
     
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool)
     {
+        allowsTickMarkValuesOnly = true
         sendAction()
     }
     

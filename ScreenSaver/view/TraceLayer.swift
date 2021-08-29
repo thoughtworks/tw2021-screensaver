@@ -59,6 +59,7 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     public func animate(to now: Date)
     {
         if state == .ready {

@@ -79,8 +79,8 @@ class ConfigureSheetController : NSObject
         case 2:
             configuration.gridSize = 125
             configuration.traceSpeed = 500
-            configuration.startInterval = 6
-            configuration.displayDuration = 34
+            configuration.startInterval = 4
+            configuration.displayDuration = 30
             configuration.verticalDensity = 2
             configuration.randomizeColorSequence = false
         case 3:
@@ -105,12 +105,6 @@ class ConfigureSheetController : NSObject
         durationSlider.animator().integerValue = Int(configuration.displayDuration)
         vDensitySlider.animator().integerValue = configuration.verticalDensity
         colorSequencePopup.selectItem(withTag: configuration.randomizeColorSequence ? 1 : 0)
-
-        scaleSlider.sendAction()
-        speedSlider.sendAction()
-        intervalSlider.sendAction()
-        durationSlider.sendAction()
-        vDensitySlider.sendAction()
     }
 
     private func saveConfiguration()

@@ -61,7 +61,7 @@ class Configuration {
             defaults.setValue(newValue, forKey: "GridSize")
             grid.width = newValue
             grid.height = newValue * sqrt(0.75)
-            lineWidth = newValue / 50 + 2
+            lineWidth = (newValue >= 100) ? newValue / 50 + 2 : 2
         }
     }
 

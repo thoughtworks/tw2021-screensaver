@@ -31,7 +31,10 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         super.init(frame: frame, isPreview: isPreview)
         wantsLayer = true
         animationTimeInterval = 1/10
-        
+        if isPreview {
+            // TODO: this is a bit of a hack...
+            Configuration.sharedInstance.gridSize = 50
+        }
     }
 
     required init?(coder aDecoder: NSCoder)

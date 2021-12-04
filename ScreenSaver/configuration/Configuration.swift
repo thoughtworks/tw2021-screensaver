@@ -20,8 +20,8 @@ class Configuration {
     static let sharedInstance = Configuration()
 
     let laneCount: Int = 5
-    let hChangeProbability = 5 // 1:x chance that direction remains the same
-    let vChangeProbability = 3 // 1:x chance that direction remains the same
+    let hChangeProbability = 8 // 1:x chance that direction remains the same
+    let vChangeProbability = 4 // 1:x chance that direction remains the same
 
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
@@ -61,7 +61,7 @@ class Configuration {
             defaults.setValue(newValue, forKey: "GridSize")
             grid.width = newValue
             grid.height = newValue * sqrt(0.75)
-            lineWidth = (newValue >= 100) ? newValue / 50 + 2 : 2
+            lineWidth = newValue / 25
         }
     }
 

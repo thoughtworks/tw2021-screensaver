@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19162" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19162"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -89,7 +89,7 @@ Gw
                     <slider toolTip="The speed with which the traces are filled" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EGa-LC-5a7" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="401" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="250" maxValue="3500" doubleValue="1980.7692307692307" tickMarkPosition="below" numberOfTickMarks="14" allowsTickMarkValuesOnly="YES" sliderType="linear" id="gkr-0L-uaH">
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="250" maxValue="3500" doubleValue="2000" tickMarkPosition="below" numberOfTickMarks="14" allowsTickMarkValuesOnly="YES" sliderType="linear" id="gkr-0L-uaH">
                             <connections>
                                 <action selector="takeIntValueFrom:" target="8rM-30-E4D" id="USK-lA-Lnq"/>
                             </connections>
@@ -98,7 +98,7 @@ Gw
                     <slider toolTip="The length of the edges of the equilateral triangles that the pattern is constructed from" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oo-fQ-qxB" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                         <rect key="frame" x="140" y="442" width="166" height="28"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="100" maxValue="200" doubleValue="125" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hTc-P6-rCu">
+                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="75" maxValue="175" doubleValue="125" tickMarkPosition="below" numberOfTickMarks="5" sliderType="linear" id="hTc-P6-rCu">
                             <connections>
                                 <action selector="takeIntegerValueFrom:" target="L4K-Ah-3Mh" id="cJN-sx-ZWA"/>
                             </connections>

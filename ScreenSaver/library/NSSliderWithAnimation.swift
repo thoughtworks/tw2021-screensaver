@@ -23,7 +23,7 @@ class NSSliderWithAnimation: NSSlider, CAAnimationDelegate {
         if key == "integerValue" {
             allowsTickMarkValuesOnly = false
             let animation = CABasicAnimation()
-            animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+            animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             animation.delegate = self
             return animation
         }

@@ -25,6 +25,8 @@ class Configuration {
 
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
+    
+    var baseSpeed: CGFloat = 2500
 
     var traceColors = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
                        NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist]
@@ -39,12 +41,9 @@ class Configuration {
         let identifier = Bundle(for: Configuration.self).bundleIdentifier!
         defaults = ScreenSaverDefaults(forModuleWithName: identifier)! as UserDefaults
         defaults.register(defaults: [
-            "GridSize": 150,
-            "TraceSpeed": 1500,
-            "StartInterval": 2,
-            "DisplayDuration": 10,
-            "VerticalDensity": 2,
-            "RandomColors": false
+            "GridSize": 125,
+            "SpeedFactor": 0.25,
+            "StartInterval": 3.0,
         ])
         update()
         gridSize = gridSize // TODO: This does what it should but it's a bit weird
@@ -65,70 +64,43 @@ class Configuration {
         }
     }
 
+    var speedFactor: CGFloat
+    {
+        get
+        {
+            defaults.double(forKey: "SpeedFactor")
+        }
+        set
+        {
+            defaults.setValue(newValue, forKey: "SpeedFactor")
+            update()
+        }
+    }
+    
+    var startInterval: Double
+    {
+        get
+        {
+            defaults.double(forKey: "StartInterval")
+        }
+        set
+        {
+            defaults.setValue(newValue, forKey: "StartInterval")
+            update()
+        }
+    }
+    
     var traceSpeed: CGFloat
     {
-        get
-        {
-            CGFloat(defaults.integer(forKey: "TraceSpeed"))
-        }
-        set
-        {
-            defaults.setValue(newValue, forKey: "TraceSpeed")
-            update()
-        }
+        baseSpeed * speedFactor
     }
-
-    var startInterval: TimeInterval
+    
+    
+    var displayDuration: Double
     {
-        get
-        {
-            TimeInterval(defaults.float(forKey: "StartInterval"))
-        }
-        set
-        {
-            defaults.set(newValue, forKey: "StartInterval")
-            update()
-        }
+        (Double(traceColors.count) - 0.5) * startInterval
     }
-
-    var displayDuration: TimeInterval
-    {
-        get
-        {
-            TimeInterval(defaults.float(forKey: "DisplayDuration"))
-        }
-        set
-        {
-            defaults.set(newValue, forKey: "DisplayDuration")
-            update()
-        }
-    }
-
-    var verticalDensity: Int
-    {
-        get
-        {
-            defaults.integer(forKey: "VerticalDensity")
-        }
-        set
-        {
-            defaults.set(newValue, forKey: "VerticalDensity")
-            update()
-        }
-    }
-
-    var randomizeColorSequence: Bool
-    {
-        get
-        {
-            defaults.bool(forKey: "RandomColors")
-        }
-        set
-        {
-            defaults.set(newValue, forKey: "RandomColors")
-        }
-    }
-
+ 
     private func update()
     {
         defaults.synchronize()

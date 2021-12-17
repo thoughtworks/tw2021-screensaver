@@ -25,13 +25,8 @@ class ColorSequence: Sequence, IteratorProtocol {
     func next() -> NSColor?
     {
         let config = Configuration.sharedInstance
-        let color: NSColor
-        if config.randomizeColorSequence {
-            color = config.traceColors.randomElement()!
-        } else {
-            color = config.traceColors[index]
-            index = (index + 1) % config.traceColors.count
-        }
+        let color = config.traceColors[index]
+        index = (index + 1) % config.traceColors.count
         return color
     }
 

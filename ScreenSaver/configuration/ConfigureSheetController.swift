@@ -18,18 +18,28 @@ import ScreenSaver
 
 class ConfigureSheetController : NSObject
 {
+    struct Preset {
+        var gridSize: CGFloat
+        var speedFactor: CGFloat
+        var startInterval: Double
+    }
+    
+    static var presets = [ Preset(gridSize: 125, speedFactor: 1/4,  startInterval: 3),
+                           Preset(gridSize: 125, speedFactor: 1,    startInterval: 1),
+                           Preset(gridSize: 150, speedFactor: 1/13, startInterval: 9),
+                           Preset(gridSize: 100, speedFactor: 1/13, startInterval: 1) ]
+    
     static var sharedInstance = ConfigureSheetController()
-
+    
     var configuration: Configuration!
     
     @IBOutlet var window: NSWindow!
     @IBOutlet var versionField: NSTextField!
+    @IBOutlet var presetSelector: NSPopUpButton!
     @IBOutlet var scaleSlider: NSSlider!
     @IBOutlet var speedSlider: NSSlider!
-    @IBOutlet var intervalSlider: NSSlider!
-    @IBOutlet var durationSlider: NSSlider!
-    @IBOutlet var vDensitySlider: NSSlider!
-    @IBOutlet var colorSequencePopup: NSPopUpButton!
+    @IBOutlet var delaySlider: NSSlider!
+
 
     override init()
     {
@@ -50,7 +60,36 @@ class ConfigureSheetController : NSObject
     {
         NSWorkspace.shared.open(URL(string: "https://github.com/thoughtworks/tw2021-screensaver")!);
     }
-
+    
+    @IBAction func applyPreset(_ sender: NSButton)
+    {
+        if sender.selectedTag() >= 0 {
+            let preset = ConfigureSheetController.presets[sender.selectedTag()]
+            configuration.gridSize = preset.gridSize
+            configuration.speedFactor = preset.speedFactor
+            configuration.startInterval = preset.startInterval
+        }
+        loadConfiguration()
+    }
+    
+    func selectPreset()
+    {
+        let index = ConfigureSheetController.presets.firstIndex { preset in
+            preset.gridSize == configuration.gridSize &&
+            preset.speedFactor == configuration.speedFactor &&
+            preset.startInterval == configuration.startInterval
+        }
+        presetSelector.selectItem(withTag: index ?? -1)
+    }
+    
+    @IBAction func sliderChanged(_ sender: NSSlider)
+    {
+        if sender.allowsTickMarkValuesOnly {
+            saveConfiguration()
+            selectPreset()
+        }
+    }
+   
     @IBAction func closeConfigureSheet(_ sender: NSButton)
     {
         if sender.tag == 1 {
@@ -59,62 +98,18 @@ class ConfigureSheetController : NSObject
         window.sheetParent!.endSheet(window, returnCode: (sender.tag == 1) ? NSApplication.ModalResponse.OK : NSApplication.ModalResponse.cancel)
     }
 
-    @IBAction func applyPreset(_ sender: NSButton)
-    {
-        switch sender.tag {
-        case 0:
-            configuration.gridSize = 200
-            configuration.traceSpeed = 2500
-            configuration.startInterval = 1
-            configuration.displayDuration = 4
-            configuration.verticalDensity = 2
-            configuration.randomizeColorSequence = false
-        case 1:
-            configuration.gridSize = 175
-            configuration.traceSpeed = 3500
-            configuration.startInterval = 2
-            configuration.displayDuration = 12
-            configuration.verticalDensity = 2
-            configuration.randomizeColorSequence = false
-        case 2:
-            configuration.gridSize = 125
-            configuration.traceSpeed = 500
-            configuration.startInterval = 4
-            configuration.displayDuration = 30
-            configuration.verticalDensity = 2
-            configuration.randomizeColorSequence = false
-        case 3:
-            configuration.gridSize = 100
-            configuration.traceSpeed = 250
-            configuration.startInterval = 2
-            configuration.displayDuration = 20
-            configuration.verticalDensity = 3
-            configuration.randomizeColorSequence = false
-        default:
-            return
-        }
-        loadConfiguration()
-        
-    }
-
     func loadConfiguration()
     {
         scaleSlider.animator().integerValue = Int(configuration.gridSize)
-        speedSlider.animator().integerValue = Int(configuration.traceSpeed)
-        intervalSlider.animator().integerValue = Int(configuration.startInterval)
-        durationSlider.animator().integerValue = Int(configuration.displayDuration)
-        vDensitySlider.animator().integerValue = configuration.verticalDensity
-        colorSequencePopup.selectItem(withTag: configuration.randomizeColorSequence ? 1 : 0)
+        speedSlider.animator().integerValue = Int(speedSlider.maxValue - (1.0 / configuration.speedFactor) + 1)
+        delaySlider.animator().integerValue = Int(configuration.startInterval)
     }
 
     private func saveConfiguration()
     {
         configuration.gridSize = CGFloat(scaleSlider.intValue)
-        configuration.traceSpeed = CGFloat(speedSlider.intValue)
-        configuration.startInterval = TimeInterval(intervalSlider.intValue)
-        configuration.displayDuration = TimeInterval(durationSlider.intValue)
-        configuration.verticalDensity = Int(vDensitySlider.intValue)
-        configuration.randomizeColorSequence = colorSequencePopup.selectedTag() == 1
+        configuration.speedFactor = 1 / (speedSlider.maxValue - speedSlider.doubleValue + 1)
+        configuration.startInterval = delaySlider.doubleValue
     }
 
 }

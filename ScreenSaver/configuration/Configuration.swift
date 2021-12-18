@@ -19,19 +19,21 @@ import ScreenSaver
 class Configuration {
     static let sharedInstance = Configuration()
 
+    let fadeTime: Double = 3
+    let resetInterval: Double = 90
+    
     let laneCount: Int = 5
     let hChangeProbability = 8 // 1:x chance that direction remains the same
     let vChangeProbability = 4 // 1:x chance that direction remains the same
+    let baseSpeed: CGFloat = 2500
+
+    let traceColors = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
+                       NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist]
+    let backgroundColor = NSColor.twWave
+    let lineColor = NSColor.twOnyx
 
     var grid = NSMakeSize(150, 150 * sqrt(0.75))
     var lineWidth: CGFloat = 5
-    
-    var baseSpeed: CGFloat = 2500
-
-    var traceColors = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
-                       NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist]
-    var backgroundColor = NSColor.twWave
-    var lineColor = NSColor.twOnyx
 
     private var defaults: UserDefaults
 

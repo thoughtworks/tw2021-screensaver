@@ -11,6 +11,7 @@
 		032279FE26D6775E00933FAF /* NSBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032279FD26D6775E00933FAF /* NSBezierPathExtensions.swift */; };
 		03227A0026D9692400933FAF /* NSSliderWithAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 032279FF26D9692400933FAF /* NSSliderWithAnimation.swift */; };
 		03227A0226DAC3BD00933FAF /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 03227A0126DAC3BD00933FAF /* thumbnail.png */; };
+		03A47481276D456F00BA786A /* FaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A47480276D456F00BA786A /* FaderView.swift */; };
 		03EC26E026BD7EC90027F2A0 /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */; };
 		03EC26E226BD82A20027F2A0 /* TrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E126BD82A20027F2A0 /* TrackView.swift */; };
 		03EC26E426BDD43D0027F2A0 /* HorizontalBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */; };
@@ -45,6 +46,7 @@
 		03227A0126DAC3BD00933FAF /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = thumbnail.png; sourceTree = "<group>"; };
 		033CEF5523C3EA1000BC74C2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		033CEF5623C3EA4100BC74C2 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		03A47480276D456F00BA786A /* FaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaderView.swift; sourceTree = "<group>"; };
 		03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		03EC26E126BD82A20027F2A0 /* TrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackView.swift; sourceTree = "<group>"; };
 		03EC26E326BDD43D0027F2A0 /* HorizontalBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalBuilder.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				03F526D3238ADC270068DC2C /* Thoughtworks2021View.swift */,
+				03A47480276D456F00BA786A /* FaderView.swift */,
 				03EC26DF26BD7EC90027F2A0 /* BackgroundView.swift */,
 				03EC26E126BD82A20027F2A0 /* TrackView.swift */,
 				2FA28CB55B15F80B8A23DFDF /* TraceLayer.swift */,
@@ -308,6 +311,7 @@
 				03F526DC238ADC270068DC2C /* Util.swift in Sources */,
 				03F526D7238ADC270068DC2C /* ConfigureSheetController.swift in Sources */,
 				03F526DE238ADC270068DC2C /* NSColorExtensions.swift in Sources */,
+				03A47481276D456F00BA786A /* FaderView.swift in Sources */,
 				032279FA26D40BF100933FAF /* NSControlExtensions.swift in Sources */,
 				03EC26E426BDD43D0027F2A0 /* HorizontalBuilder.swift in Sources */,
 				03227A0026D9692400933FAF /* NSSliderWithAnimation.swift in Sources */,

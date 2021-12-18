@@ -19,13 +19,17 @@ import ScreenSaver
 @objc(Thoughtworks2021View)
 class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
 {
+    var faderView: FaderView
     var trackViews: [TrackView]
+    var lastFade: Date
     var lastTraceStart: Date
     var colorSequence: ColorSequence
 
     override init?(frame: NSRect, isPreview: Bool)
     {
+        faderView = FaderView(frame: frame)
         trackViews = []
+        lastFade = NSDate.now
         lastTraceStart = Date.distantPast
         colorSequence = ColorSequence()
         super.init(frame: frame, isPreview: isPreview)
@@ -48,18 +52,19 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func viewDidMoveToSuperview()
     {
         super.viewDidMoveToSuperview()
+        addSubview(faderView)
         resetSubviews()
     }
     
     func resetSubviews()
     {
-        subviews.first?.removeFromSuperview()
-        trackViews.forEach({ $0.removeFromSuperview() })
-        trackViews = []
-
-        addSubview(BackgroundView(frame: frame))
+        while subviews.count > 1 {
+            subviews.first!.removeFromSuperview()
+        }
         trackViews = makeTrackViews()
-        trackViews.forEach({ addSubview($0) })
+        addSubview(BackgroundView(frame: frame), positioned: .below, relativeTo: faderView)
+        trackViews.forEach({ addSubview($0, positioned: .below, relativeTo: faderView) })
+        lastTraceStart = Date.distantPast
     }
     
     func makeTrackViews() -> [TrackView]
@@ -115,6 +120,10 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func animateOneFrame()
     {
         let now = NSDate.now
+        if now.timeIntervalSince(lastFade) > Configuration.sharedInstance.resetInterval {
+            lastFade = NSDate.now
+            faderView.performWithFade { self.resetSubviews() }
+        }
         if now.timeIntervalSince(lastTraceStart) > Configuration.sharedInstance.startInterval {
             trackViews.filter({ $0.traceCount < 2 }).randomElement()?.addTrace()
             lastTraceStart = now

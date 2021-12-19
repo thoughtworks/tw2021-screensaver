@@ -225,8 +225,8 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1120;
-				LastUpgradeCheck = 1250;
-				ORGANIZATIONNAME = "Mulle Kybernetik";
+				LastUpgradeCheck = 1320;
+				ORGANIZATIONNAME = Thoughtworks;
 				TargetAttributes = {
 					03F526B6238ADC140068DC2C = {
 						CreatedOnToolsVersion = 11.2.1;

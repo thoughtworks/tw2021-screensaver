@@ -30,9 +30,7 @@ class ConfigureSheetController : NSObject
                            Preset(gridSize: 100, speedFactor: 1/13, startInterval: 1) ]
     
     static var sharedInstance = ConfigureSheetController()
-    
-    var configuration: Configuration!
-    
+  
     @IBOutlet var window: NSWindow!
     @IBOutlet var versionField: NSTextField!
     @IBOutlet var presetSelector: NSPopUpButton!
@@ -40,12 +38,15 @@ class ConfigureSheetController : NSObject
     @IBOutlet var speedSlider: NSSlider!
     @IBOutlet var delaySlider: NSSlider!
 
+    var configuration: Configuration
+    var ignoreSliderChanges: Bool
 
     override init()
     {
-        super.init()
-
         configuration = Configuration.sharedInstance
+        ignoreSliderChanges = false
+
+        super.init()
 
         let myBundle = Bundle(for: ConfigureSheetController.self)
         myBundle.loadNibNamed("ConfigureSheet", owner: self, topLevelObjects: nil)
@@ -55,38 +56,68 @@ class ConfigureSheetController : NSObject
         versionField.stringValue = String(format: "Version %@ (%@)", bundleVersion, sourceVersion)
     }
     
+    func loadConfiguration()
+    {
+        scaleSlider.integerValue = Int(configuration.gridSize)
+        speedSlider.integerValue = sliderValueForSpeedFactor(configuration.speedFactor)
+        delaySlider.integerValue = Int(configuration.startInterval)
+        selectPresetFromSliderValues()
+    }
 
-    @IBAction func openProjectPage(_ sender: AnyObject)
+    private func saveConfiguration()
     {
-        NSWorkspace.shared.open(URL(string: "https://github.com/thoughtworks/tw2021-screensaver")!);
+        configuration.gridSize = CGFloat(scaleSlider.integerValue)
+        configuration.speedFactor = speedFactorForSliderValue(speedSlider.integerValue)
+        configuration.startInterval = Double(delaySlider.integerValue)
+        configuration.sync()
     }
-    
-    @IBAction func applyPreset(_ sender: NSButton)
-    {
-        if sender.selectedTag() >= 0 {
-            let preset = ConfigureSheetController.presets[sender.selectedTag()]
-            configuration.gridSize = preset.gridSize
-            configuration.speedFactor = preset.speedFactor
-            configuration.startInterval = preset.startInterval
-        }
-        loadConfiguration()
-    }
-    
-    func selectPreset()
+
+    private func selectPresetFromSliderValues()
     {
         let index = ConfigureSheetController.presets.firstIndex { preset in
-            preset.gridSize == configuration.gridSize &&
-            preset.speedFactor == configuration.speedFactor &&
-            preset.startInterval == configuration.startInterval
+            preset.gridSize == CGFloat(scaleSlider.integerValue) &&
+            preset.speedFactor == speedFactorForSliderValue(speedSlider.integerValue) &&
+            preset.startInterval == Double(delaySlider.integerValue)
         }
         presetSelector.selectItem(withTag: index ?? -1)
     }
     
+    private func applyPresetToSliders()
+    {
+        let tag = presetSelector.selectedTag()
+        if tag >= 0 && tag < ConfigureSheetController.presets.count {
+            let preset = ConfigureSheetController.presets[tag]
+            scaleSlider.animator().integerValue = Int(preset.gridSize)
+            speedSlider.animator().integerValue = sliderValueForSpeedFactor(preset.speedFactor)
+            delaySlider.animator().integerValue = Int(preset.startInterval)
+        }
+    }
+    
+    private func speedFactorForSliderValue(_ value: Int) -> CGFloat {
+        1 / (speedSlider.maxValue - Double(value) + 1)
+    }
+    
+    private func sliderValueForSpeedFactor(_ factor: CGFloat) -> Int {
+        Int(speedSlider.maxValue - (1.0 / factor) + 1)
+    }
+    
+    
+    @IBAction func openProjectPage(_ sender: AnyObject)
+    {
+        NSWorkspace.shared.open(URL(string: "https://github.com/thoughtworks/tw2021-screensaver")!);
+    }
+
+    @IBAction func applyPreset(_ sender: NSButton)
+    {
+        ignoreSliderChanges = true
+        Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { _ in self.ignoreSliderChanges = false }
+        applyPresetToSliders()
+    }
+    
     @IBAction func sliderChanged(_ sender: NSSlider)
     {
-        if sender.allowsTickMarkValuesOnly {
-            saveConfiguration()
-            selectPreset()
+        if ignoreSliderChanges == false {
+            selectPresetFromSliderValues()
         }
     }
    
@@ -98,18 +129,5 @@ class ConfigureSheetController : NSObject
         window.sheetParent!.endSheet(window, returnCode: (sender.tag == 1) ? NSApplication.ModalResponse.OK : NSApplication.ModalResponse.cancel)
     }
 
-    func loadConfiguration()
-    {
-        scaleSlider.animator().integerValue = Int(configuration.gridSize)
-        speedSlider.animator().integerValue = Int(speedSlider.maxValue - (1.0 / configuration.speedFactor) + 1)
-        delaySlider.animator().integerValue = Int(configuration.startInterval)
-    }
-
-    private func saveConfiguration()
-    {
-        configuration.gridSize = CGFloat(scaleSlider.intValue)
-        configuration.speedFactor = 1 / (speedSlider.maxValue - speedSlider.doubleValue + 1)
-        configuration.startInterval = delaySlider.doubleValue
-    }
 
 }

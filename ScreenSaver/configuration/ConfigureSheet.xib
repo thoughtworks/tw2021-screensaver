@@ -46,9 +46,9 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TiY-4j-Qy6">
-                        <rect key="frame" x="152" y="246" width="56" height="19"/>
+                        <rect key="frame" x="151" y="246" width="59" height="19"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="roundRect" title="About..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="riV-QZ-cYc">
+                        <buttonCell key="cell" type="roundRect" title="Github..." bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="riV-QZ-cYc">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>
                         </buttonCell>
@@ -95,7 +95,7 @@
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EGa-LC-5a7" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                                     <rect key="frame" x="99" y="45" width="166" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="13" doubleValue="7" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="gkr-0L-uaH"/>
+                                    <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="13" doubleValue="7" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="gkr-0L-uaH"/>
                                     <connections>
                                         <action selector="sliderChanged:" target="-2" id="3Ee-ra-jZG"/>
                                     </connections>
@@ -103,7 +103,7 @@
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2oo-fQ-qxB" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                                     <rect key="frame" x="99" y="73" width="166" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="75" maxValue="175" doubleValue="75" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hTc-P6-rCu"/>
+                                    <sliderCell key="cell" state="on" alignment="left" minValue="75" maxValue="175" doubleValue="75" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="hTc-P6-rCu"/>
                                     <connections>
                                         <action selector="sliderChanged:" target="-2" id="ElI-dS-rqj"/>
                                     </connections>
@@ -111,7 +111,7 @@
                                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uYQ-QX-Ywu" customClass="NSSliderWithAnimation" customModule="Thoughtworks2021" customModuleProvider="target">
                                     <rect key="frame" x="99" y="14" width="166" height="28"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="9" doubleValue="5" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="1x4-q8-DiG"/>
+                                    <sliderCell key="cell" state="on" alignment="left" minValue="1" maxValue="9" doubleValue="5" tickMarkPosition="below" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="1x4-q8-DiG"/>
                                     <connections>
                                         <action selector="sliderChanged:" target="-2" id="Ki8-sf-Pst"/>
                                     </connections>

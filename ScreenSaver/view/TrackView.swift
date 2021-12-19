@@ -126,7 +126,7 @@ class TrackView : NSView, CALayerDelegate {
         } else {
             return
         }
-        layer!.addSublayer(newLayer)
+        layer?.addSublayer(newLayer)
     }
 
     func makeFirstTraceLayer() -> TraceLayer

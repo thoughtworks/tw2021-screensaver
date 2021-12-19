@@ -47,8 +47,13 @@ class Configuration {
             "SpeedFactor": 0.25,
             "StartInterval": 3.0,
         ])
-        update()
         gridSize = gridSize // TODO: This does what it should but it's a bit weird
+    }
+    
+    public func sync()
+    {
+        // docs says this is unnecessary, but it is needed for screensavers
+        defaults.synchronize()
     }
 
     var gridSize: CGFloat
@@ -75,7 +80,6 @@ class Configuration {
         set
         {
             defaults.setValue(newValue, forKey: "SpeedFactor")
-            update()
         }
     }
     
@@ -88,7 +92,6 @@ class Configuration {
         set
         {
             defaults.setValue(newValue, forKey: "StartInterval")
-            update()
         }
     }
     
@@ -101,11 +104,6 @@ class Configuration {
     var displayDuration: Double
     {
         (Double(traceColors.count) - 0.5) * startInterval
-    }
- 
-    private func update()
-    {
-        defaults.synchronize()
     }
 
 

@@ -63,6 +63,9 @@ class AppDelegate: NSObject
 
     @IBAction func showPreferences(_ sender: NSObject!)
     {
+        if view.isAnimating {
+            view.stopAnimation()
+        }
         window.beginSheet(view.configureSheet!, completionHandler: { _ in self.restartAnimation(self) })
     }
 
@@ -89,8 +92,4 @@ extension AppDelegate: NSWindowDelegate
     {
     }
 
-    func windowDidEndSheet(_ notification: Notification)
-    {
-        restartAnimation(nil)
-    }
 }

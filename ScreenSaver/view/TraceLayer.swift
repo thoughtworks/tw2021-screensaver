@@ -59,49 +59,38 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    private func setState(_ newState: State, at now: Date)
+    {
+        state = newState
+        timestamp = now
+    }
+
     public func animate(to now: Date)
     {
-        if state == .ready {
-            startFilling()
-            state = .filling
-            timestamp = now
-        }
-        else if state == .showing && now.timeIntervalSince(timestamp) > Configuration.sharedInstance.displayDuration {
-            startFading()
-            state = .fading
-            timestamp = now
-        }
-        else if state == .done {
+        switch state {
+        case .ready:
+            strokeEnd = 0
+            setState(.filling, at: now)
+        case .filling:
+            let distance = CGFloat(now.timeIntervalSince(timestamp)) * Configuration.sharedInstance.traceSpeed
+            let bb = path!.boundingBox
+            strokeEnd = min(1, distance / max(bb.width, bb.height))
+            if strokeEnd == 1 {
+                setState(.showing, at: now)
+            }
+        case .showing:
+            if now.timeIntervalSince(timestamp) > Configuration.sharedInstance.displayDuration {
+                opacity = 1
+                setState(.fading, at: now)
+            }
+        case .fading:
+            opacity = max(0, Float(1 - now.timeIntervalSince(timestamp)))
+            if opacity == 0 {
+                setState(.done, at: now)
+            }
+        case .done:
             removeFromSuperlayer()
         }
     }
     
-    private func startFilling()
-    {
-        let animation = CABasicAnimation(keyPath: #keyPath(CAShapeLayer.strokeEnd))
-        animation.fromValue = 0
-        let bb = path!.boundingBox
-        animation.duration = CFTimeInterval(max(bb.width, bb.height) / Configuration.sharedInstance.traceSpeed)
-        animation.timingFunction = CAMediaTimingFunction(name: .linear)
-        animation.delegate = self
-        strokeEnd = 1
-        add(animation, forKey: #keyPath(CAShapeLayer.strokeEnd))
-    }
-
-    private func startFading()
-    {
-        let animation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-        animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        animation.delegate = self
-        opacity = 0
-        add(animation, forKey: #keyPath(CALayer.opacity))
-    }
-    
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool)
-    {
-        state = (state == .filling) ? .showing : .done
-        timestamp += anim.duration // a good enough approximation
-    }
-
 }

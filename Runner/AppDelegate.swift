@@ -66,7 +66,7 @@ class AppDelegate: NSObject
         if view.isAnimating {
             view.stopAnimation()
         }
-        window.beginSheet(view.configureSheet!, completionHandler: { _ in self.restartAnimation(self) })
+        window.beginSheet(view.configureSheet!, completionHandler: { _ in self.view.startAnimation() })
     }
 
 }

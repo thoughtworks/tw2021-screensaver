@@ -17,13 +17,14 @@
 import ScreenSaver
 
 @objc(Thoughtworks2021View)
-class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
+final class Thoughtworks2021View: ScreenSaverView
 {
     var faderView: FaderView
     var trackViews: [TrackView]
     var lastFade: Date
     var lastTraceStart: Date
     var colorSequence: ColorSequence
+    var isFirstStart: Bool
 
     override init?(frame: NSRect, isPreview: Bool)
     {
@@ -32,14 +33,17 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         lastFade = NSDate.now
         lastTraceStart = Date.distantPast
         colorSequence = ColorSequence()
+        isFirstStart = true
         super.init(frame: frame, isPreview: isPreview)
         wantsLayer = true
-        animationTimeInterval = 1/10
+        animationTimeInterval = 1/60
+        
         if isPreview {
             setBoundsSize(NSMakeSize(bounds.width * 6, bounds.height * 6))
         }
         faderView.frame = bounds
         addSubview(faderView)
+        addSceneViews()
     }
 
     required init?(coder aDecoder: NSCoder)
@@ -51,12 +55,17 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     // scene views
     
     func addSceneViews() {
+        addSubview(makeBackgroundView(), positioned: .below, relativeTo: faderView)
         trackViews = makeTrackViews()
-        addSubview(BackgroundView(frame: bounds), positioned: .below, relativeTo: faderView)
         trackViews.forEach({ addSubview($0, positioned: .below, relativeTo: faderView) })
     }
     
-    func makeTrackViews() -> [TrackView]
+    private func makeBackgroundView() -> BackgroundView
+    {
+        return BackgroundView(frame: bounds)
+    }
+    
+    private func makeTrackViews() -> [TrackView]
     {
         var views: [TrackView] = []
         let grid = Configuration.sharedInstance.grid
@@ -74,12 +83,12 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
         return views
     }
 
-    func revoveSceneViews() {
+    func removeSceneViews() {
         while subviews.count > 1 {
             subviews.first!.removeFromSuperview()
         }
     }
-    
+
 
     // configuration
 
@@ -101,9 +110,14 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func startAnimation()
     {
         NSLog("TW2021: %p will start animation in frame \(frame)", self)
+        if !isFirstStart {
+            NSLog("TW2021: %p is a restart", self)
+            removeSceneViews()
+            addSceneViews()
+        }
+        isFirstStart = false
         lastFade = NSDate.now
         lastTraceStart = Date.distantPast
-        addSceneViews()
         super.startAnimation()
         NSLog("TW2021: %p did start animation", self)
     }
@@ -111,7 +125,6 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     override func stopAnimation()
     {
         NSLog("TW2021: %p will stop animation", self)
-        revoveSceneViews()
         super.stopAnimation()
         NSLog("TW2021: %p did stop animation", self)
     }
@@ -123,7 +136,7 @@ class Thoughtworks2021View: ScreenSaverView, CALayerDelegate
     {
         let now = NSDate.now
         if now.timeIntervalSince(lastFade) > Configuration.sharedInstance.resetInterval {
-            faderView.performWithFade { self.revoveSceneViews(); self.addSceneViews(); }
+            faderView.performWithFade { self.removeSceneViews(); self.addSceneViews(); }
             lastFade = now
         }
         if now.timeIntervalSince(lastTraceStart) > Configuration.sharedInstance.startInterval {

@@ -25,14 +25,14 @@ class Configuration {
     let laneCount: Int = 5
     let hChangeProbability = 8 // 1:x chance that direction remains the same
     let vChangeProbability = 4 // 1:x chance that direction remains the same
-    let baseSpeed: CGFloat = 2500
+    let baseSpeed: CGFloat = 1500
 
     let traceColors = [NSColor.twFlamingo, NSColor.twTurmeric, NSColor.twJade,
                        NSColor.twSapphire, NSColor.twAmethyst, NSColor.twMist]
     let backgroundColor = NSColor.twWave
     let lineColor = NSColor.twOnyx
 
-    var grid = NSMakeSize(150, 150 * sqrt(0.75))
+    var grid = NSMakeSize(125, 125 * sqrt(0.75))
     var lineWidth: CGFloat = 5
 
     private var defaults: UserDefaults

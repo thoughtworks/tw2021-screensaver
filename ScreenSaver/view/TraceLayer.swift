@@ -29,13 +29,13 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
     
     public let laneIndex: Int
     public var state: State
-    public var timestamp: Date
+    public var timestamp: CFTimeInterval
     
     init(laneIndex: Int, path: NSBezierPath, color: NSColor)
     {
         self.laneIndex = laneIndex
         state = .ready
-        timestamp = Date.distantPast
+        timestamp = 0
         
         super.init()
 
@@ -59,34 +59,34 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setState(_ newState: State, at now: Date)
+    private func setState(_ newState: State, at time: CFTimeInterval)
     {
         state = newState
-        timestamp = now
+        timestamp = time
     }
 
-    public func animate(to now: Date)
+    public func animate(to time: CFTimeInterval)
     {
         switch state {
         case .ready:
             strokeEnd = 0
-            setState(.filling, at: now)
+            setState(.filling, at: time)
         case .filling:
-            let distance = CGFloat(now.timeIntervalSince(timestamp)) * Configuration.sharedInstance.traceSpeed
+            let distance = CGFloat(time - timestamp) * Configuration.sharedInstance.traceSpeed
             let bb = path!.boundingBox
             strokeEnd = min(1, distance / max(bb.width, bb.height))
             if strokeEnd == 1 {
-                setState(.showing, at: now)
+                setState(.showing, at: time)
             }
         case .showing:
-            if now.timeIntervalSince(timestamp) > Configuration.sharedInstance.displayDuration {
+            if time - timestamp > Configuration.sharedInstance.displayDuration {
                 opacity = 1
-                setState(.fading, at: now)
+                setState(.fading, at: time)
             }
         case .fading:
-            opacity = max(0, Float(1 - now.timeIntervalSince(timestamp)))
+            opacity = max(0, Float(1 - (time - timestamp)))
             if opacity == 0 {
-                setState(.done, at: now)
+                setState(.done, at: time)
             }
         case .done:
             removeFromSuperlayer()

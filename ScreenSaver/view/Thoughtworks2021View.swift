@@ -21,8 +21,8 @@ final class Thoughtworks2021View: ScreenSaverView
 {
     var faderView: FaderView
     var trackViews: [TrackView]
-    var lastFade: Date
-    var lastTraceStart: Date
+    var lastFade: CFTimeInterval
+    var lastTraceStart: CFTimeInterval
     var colorSequence: ColorSequence
     var isFirstStart: Bool
 
@@ -30,8 +30,8 @@ final class Thoughtworks2021View: ScreenSaverView
     {
         faderView = FaderView(frame: frame)
         trackViews = []
-        lastFade = NSDate.now
-        lastTraceStart = Date.distantPast
+        lastFade = 0
+        lastTraceStart = 0
         colorSequence = ColorSequence()
         isFirstStart = true
         super.init(frame: frame, isPreview: isPreview)
@@ -69,12 +69,12 @@ final class Thoughtworks2021View: ScreenSaverView
     {
         var views: [TrackView] = []
         let grid = Configuration.sharedInstance.grid
-        var p = NSMakePoint(grid.width, -grid.height/2)
+        var p = NSMakePoint(2 * grid.width, -grid.height/2)
         while p.x < bounds.width {
             views.append(TrackView.verticalView(frame: bounds, startAt: p, colorSequence: colorSequence))
             p.x += 5 * grid.width
         }
-        p = NSMakePoint(-grid.width, 3/2 * grid.height)
+        p = NSMakePoint(-grid.width, 7/2 * grid.height)
         while p.y < bounds.height - grid.height {
             views.append(TrackView.horizontalView(frame: bounds, startAt: p, colorSequence: colorSequence))
             p.y += 2 * grid.height
@@ -116,8 +116,8 @@ final class Thoughtworks2021View: ScreenSaverView
             addSceneViews()
         }
         isFirstStart = false
-        lastFade = NSDate.now
-        lastTraceStart = Date.distantPast
+        lastFade = CACurrentMediaTime()
+        lastTraceStart = 0
         super.startAnimation()
         NSLog("TW2021: %p did start animation", self)
     }
@@ -134,16 +134,16 @@ final class Thoughtworks2021View: ScreenSaverView
 
     override func animateOneFrame()
     {
-        let now = NSDate.now
-        if now.timeIntervalSince(lastFade) > Configuration.sharedInstance.resetInterval {
+        let currentTime = CACurrentMediaTime()
+        if currentTime - lastFade > Configuration.sharedInstance.resetInterval {
             faderView.performWithFade { self.removeSceneViews(); self.addSceneViews(); }
-            lastFade = now
+            lastFade = currentTime
         }
-        if now.timeIntervalSince(lastTraceStart) > Configuration.sharedInstance.startInterval {
+        if currentTime - lastTraceStart > Configuration.sharedInstance.startInterval {
             trackViews.filter({ $0.traceCount < 2 }).randomElement()?.addTrace()
-            lastTraceStart = now
+            lastTraceStart = currentTime
         }
-        trackViews.forEach({ $0.animate(to: now) })
+        trackViews.forEach({ $0.animate(to: currentTime) })
     }
     
 }

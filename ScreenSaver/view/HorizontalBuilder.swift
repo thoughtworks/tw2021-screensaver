@@ -37,7 +37,7 @@ class HorizontalBuilder {
     }
     
     public func build() -> [[NSPoint]] {
-        while p0.x < size.width + config.grid.width {
+        while p0.x < size.width + 1.5 * config.grid.width {
             if bearing != 0 {
                 xOffset = -bearing * (config.grid.width/2 / CGFloat(config.laneCount * 2))
             }

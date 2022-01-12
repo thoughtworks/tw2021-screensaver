@@ -148,9 +148,9 @@ class TrackView : NSView, CALayerDelegate {
     }
 
 
-    public func animate(to now: Date)
+    public func animate(to time: CFTimeInterval)
     {
-        traceLayers.forEach({ $0.animate(to: now) })
+        traceLayers.forEach({ $0.animate(to: time) })
     }
 
 

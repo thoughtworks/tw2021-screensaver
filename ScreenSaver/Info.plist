@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.9</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2021 Thoughtworks Inc. All rights reserved.</string>
+	<string>Copyright © 2021-2022 Thoughtworks Inc. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>Thoughtworks2021View</string>
 	<key>Source Version</key>

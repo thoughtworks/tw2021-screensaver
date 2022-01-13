@@ -133,7 +133,7 @@ class TrackView : NSView, CALayerDelegate {
     {
         let idx = Util.randomInt(tracePaths.count)
         let color = colors.next()!
-        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
+        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color, reverse: Util.randomBool())
     }
 
     func makeSecondTraceLayer(first: TraceLayer) -> TraceLayer
@@ -144,7 +144,7 @@ class TrackView : NSView, CALayerDelegate {
         repeat {
             color = colors.next()!
         } while color == NSColor(cgColor: first.strokeColor!)
-        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color)
+        return TraceLayer(laneIndex: idx, path: tracePaths[idx], color: color, reverse: first.reverse)
     }
 
 

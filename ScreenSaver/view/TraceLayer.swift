@@ -28,13 +28,15 @@ class TraceLayer : CAShapeLayer {
     }
     
     public let laneIndex: Int
+    public let reverse: Bool
 
     private var state: State
     private var lastStateChange: CFTimeInterval
     
-    init(laneIndex: Int, path: NSBezierPath, color: NSColor)
+    init(laneIndex: Int, path: NSBezierPath, color: NSColor, reverse: Bool)
     {
         self.laneIndex = laneIndex
+        self.reverse = reverse
         state = .ready
         lastStateChange = 0
         
@@ -50,6 +52,7 @@ class TraceLayer : CAShapeLayer {
     {
         let other = layer as! TraceLayer
         self.laneIndex = other.laneIndex
+        self.reverse = other.reverse
         self.state = other.state
         self.lastStateChange = other.lastStateChange
         super.init(layer: other)
@@ -70,14 +73,22 @@ class TraceLayer : CAShapeLayer {
     {
         switch state {
         case .ready:
-            strokeEnd = 0
+            strokeStart = reverse ? 1 : 0
+            strokeEnd = reverse ? 1 : 0
             setState(.filling, at: time)
         case .filling:
             let distance = CGFloat(time - lastStateChange) * Configuration.sharedInstance.traceSpeed
             let bb = path!.boundingBox
-            strokeEnd = min(1, distance / max(bb.width, bb.height))
-            if strokeEnd == 1 {
-                setState(.showing, at: time)
+            if reverse {
+                strokeStart = max(0, 1 - distance / max(bb.width, bb.height))
+                if strokeStart == 0 {
+                    setState(.showing, at: time)
+                }
+            } else {
+                strokeEnd = min(1, distance / max(bb.width, bb.height))
+                if strokeEnd == 1 {
+                    setState(.showing, at: time)
+                }
             }
         case .showing:
             if time - lastStateChange > Configuration.sharedInstance.displayDuration {
@@ -97,7 +108,7 @@ class TraceLayer : CAShapeLayer {
     override func action(forKey event: String) -> CAAction?
     {
         // TODO: confirm that this really has less overhead than using a CATransaction
-        if event == "strokeEnd" || event == "opacity" {
+        if event == "strokeEnd" || event == "strokeStart" || event == "opacity" {
             return nil
         }
         return super.action(forKey: event)

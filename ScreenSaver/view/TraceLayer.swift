@@ -16,7 +16,7 @@
 
 import Cocoa
 
-class TraceLayer : CAShapeLayer, CAAnimationDelegate {
+class TraceLayer : CAShapeLayer {
     
     enum State: Int {
         case
@@ -28,20 +28,21 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
     }
     
     public let laneIndex: Int
-    public var state: State
-    public var timestamp: CFTimeInterval
+
+    private var state: State
+    private var lastStateChange: CFTimeInterval
     
     init(laneIndex: Int, path: NSBezierPath, color: NSColor)
     {
         self.laneIndex = laneIndex
         state = .ready
-        timestamp = 0
+        lastStateChange = 0
         
         super.init()
 
         self.path = path.cgPath
-        self.strokeColor = color.cgColor
         self.lineWidth = path.lineWidth
+        self.strokeColor = color.cgColor
         self.fillColor = nil
     }
     
@@ -50,7 +51,7 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
         let other = layer as! TraceLayer
         self.laneIndex = other.laneIndex
         self.state = other.state
-        self.timestamp = other.timestamp
+        self.lastStateChange = other.lastStateChange
         super.init(layer: other)
     }
     
@@ -62,7 +63,7 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
     private func setState(_ newState: State, at time: CFTimeInterval)
     {
         state = newState
-        timestamp = time
+        lastStateChange = time
     }
 
     public func animate(to time: CFTimeInterval)
@@ -72,19 +73,19 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
             strokeEnd = 0
             setState(.filling, at: time)
         case .filling:
-            let distance = CGFloat(time - timestamp) * Configuration.sharedInstance.traceSpeed
+            let distance = CGFloat(time - lastStateChange) * Configuration.sharedInstance.traceSpeed
             let bb = path!.boundingBox
             strokeEnd = min(1, distance / max(bb.width, bb.height))
             if strokeEnd == 1 {
                 setState(.showing, at: time)
             }
         case .showing:
-            if time - timestamp > Configuration.sharedInstance.displayDuration {
+            if time - lastStateChange > Configuration.sharedInstance.displayDuration {
                 opacity = 1
                 setState(.fading, at: time)
             }
         case .fading:
-            opacity = max(0, Float(1 - (time - timestamp)))
+            opacity = max(0, Float(1 - (time - lastStateChange)))
             if opacity == 0 {
                 setState(.done, at: time)
             }
@@ -92,5 +93,15 @@ class TraceLayer : CAShapeLayer, CAAnimationDelegate {
             removeFromSuperlayer()
         }
     }
-    
+
+    override func action(forKey event: String) -> CAAction?
+    {
+        // TODO: confirm that this really has less overhead than using a CATransaction
+        if event == "strokeEnd" || event == "opacity" {
+            return nil
+        }
+        return super.action(forKey: event)
+    }
+
+
 }

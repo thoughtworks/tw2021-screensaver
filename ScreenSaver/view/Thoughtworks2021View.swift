@@ -34,13 +34,15 @@ final class Thoughtworks2021View: ScreenSaverView
         lastTraceStart = 0
         colorSequence = ColorSequence()
         isFirstStart = true
+
         super.init(frame: frame, isPreview: isPreview)
+
         wantsLayer = true
         animationTimeInterval = 1/60
-        
         if isPreview {
             setBoundsSize(NSMakeSize(bounds.width * 6, bounds.height * 6))
         }
+
         faderView.frame = bounds
         addSubview(faderView)
         addSceneViews()
@@ -145,5 +147,6 @@ final class Thoughtworks2021View: ScreenSaverView
         }
         trackViews.forEach({ $0.animate(to: currentTime) })
     }
-    
+
+
 }

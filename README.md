@@ -1,6 +1,6 @@
 # Thoughtworks 2021 screen saver
 
-![thoughtworks-2021-sample]()
+![thoughtworks-2021-sample](https://user-images.githubusercontent.com/954026/150655753-4144587b-44e4-40d7-a0f8-07a6ac0733d1.gif)
 
 In the summer of 2021 Thoughtworks refreshed its brand. This screen saver animates one of the many beautiful illustrations that were created as part of the brand refresh.
 

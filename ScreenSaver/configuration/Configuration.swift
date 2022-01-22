@@ -23,7 +23,7 @@ class Configuration {
     let resetInterval: Double = 90
     
     let laneCount: Int = 5
-    let hChangeProbability = 8 // 1:x chance that direction remains the same
+    let hChangeProbability = 4 // 1:x chance that direction remains the same
     let vChangeProbability = 4 // 1:x chance that direction remains the same
     let baseSpeed: CGFloat = 1500
 

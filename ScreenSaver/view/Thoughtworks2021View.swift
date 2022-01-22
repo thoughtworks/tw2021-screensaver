@@ -71,15 +71,15 @@ final class Thoughtworks2021View: ScreenSaverView
     {
         var views: [TrackView] = []
         let grid = Configuration.sharedInstance.grid
-        var p = NSMakePoint(2 * grid.width, -grid.height/2)
+        var p = NSMakePoint(3 * grid.width, -grid.height/2)
         while p.x < bounds.width {
             views.append(TrackView.verticalView(frame: bounds, startAt: p, colorSequence: colorSequence))
             p.x += 5 * grid.width
         }
-        p = NSMakePoint(-grid.width, 7/2 * grid.height)
+        p = NSMakePoint(-grid.width, 3/2 * grid.height)
         while p.y < bounds.height - grid.height {
             views.append(TrackView.horizontalView(frame: bounds, startAt: p, colorSequence: colorSequence))
-            p.y += 2 * grid.height
+            p.y += 4 * grid.height
         }
         views.shuffle()
         return views
